@@ -4,60 +4,73 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
 	
-	private int MaxSpeed = 10;
+	private int maxSpeed = 10;
     
-	public LayerMask WhatIsGround;	// A mask determining what is ground to the character
-	private Transform GroundCheck;	// A position marking where to check if the player is grounded.
-	private float GroundedRadius;	// Radius of the overlap circle to determine if grounded
-	private bool Grounded;			// Whether or not the player is grounded.
+	public LayerMask whatIsGround;	// A mask determining what is ground to the character
+	private Transform groundCheck;	// A position marking where to check if the player is grounded.
+	private float groundedRadius;	// Radius of the overlap circle to determine if grounded
+	private bool grounded;			// Whether or not the player is grounded.
 
-	private Rigidbody2D Rigidbody2D;
-	private bool FacingRight = true;	// For determining which way the player is currently facing.
+	private Rigidbody2D myRigidbody;
+	private bool facingRight = true;	// For determining which way the player is currently facing.
+
+	private float myGravity;
+	private bool onStairs = false;
 
     private void Awake()
     {
-        GroundCheck = transform.Find("GroundCheck");
-        Rigidbody2D = GetComponent<Rigidbody2D>();
-		GroundedRadius = transform.localScale.x / 2;
+        groundCheck = transform.Find("GroundCheck");
+        myRigidbody = GetComponent<Rigidbody2D>();
+		groundedRadius = (GetComponent<BoxCollider2D> ().size.x * transform.lossyScale.x) / 2;//transform.localScale.x;
+		myGravity = myRigidbody.gravityScale;
     }
 
 
     private void FixedUpdate()
     {
-        Grounded = false;
+        grounded = false;
 
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(GroundCheck.position, GroundedRadius, WhatIsGround);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject != gameObject)
-                Grounded = true;
+                grounded = true;
         }
 
 		float movement = Input.GetAxisRaw ("Horizontal");
+		float stairsUpDown = onStairs ? Input.GetAxisRaw ("Vertical") : 0;
 		//bool attack = Input.GetAxisRaw ("Jump") == 1
-		Move (movement);
+		Move (movement, stairsUpDown);
     }
 
 
-    public void Move(float movement)
+	public void Move(float movement, float stairsUpDown)
     {
         //only control the player if grounded
-        if (Grounded)
-        {
-            Rigidbody2D.velocity = new Vector2(movement*MaxSpeed, Rigidbody2D.velocity.y);
+		if (grounded) {
+			myRigidbody.velocity = new Vector2 (movement * maxSpeed, onStairs ? stairsUpDown * maxSpeed : myRigidbody.velocity.y);
 
-			if (movement > 0 && !FacingRight || movement < 0 && FacingRight)
-                Flip();
-        }
+			if (movement > 0 && !facingRight || movement < 0 && facingRight)
+				Flip ();
+		}
+		else if (myRigidbody.velocity.y > 0)
+			myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, 0);
     }
 
 
     private void Flip()
     {
-        FacingRight = !FacingRight;
+        facingRight = !facingRight;
 
 		transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
+
+
+	public void setOnStairs(bool onStairs){
+		this.onStairs = onStairs;
+		myRigidbody.gravityScale = onStairs ? 0 : myGravity;
+		myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, 0);
+	}
 }
 
