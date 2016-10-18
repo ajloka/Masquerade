@@ -16,6 +16,7 @@ public class Character : MonoBehaviour
 
 	private float myGravity;
 	private bool onStairs = false;
+    private string m_MagicType;
 
     private void Awake()
     {
@@ -23,6 +24,28 @@ public class Character : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
 		groundedRadius = (GetComponent<BoxCollider2D> ().size.x * transform.lossyScale.x) / 2;//transform.localScale.x;
 		myGravity = myRigidbody.gravityScale;
+
+        m_MagicType = "Plant";
+    }
+
+    private void Update()
+    {
+
+    
+        //Lee si se cmabia el tipo de magia
+        if (Input.GetKey("left"))
+        {
+            m_MagicType = "Ice";
+        }
+        if (Input.GetKey("right"))
+        {
+            m_MagicType = "Fire";
+        }
+        if (Input.GetKey("up"))
+        {
+            m_MagicType = "Plant";
+        }
+
     }
 
 
@@ -72,5 +95,12 @@ public class Character : MonoBehaviour
 		myRigidbody.gravityScale = onStairs ? 0 : myGravity;
 		myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, 0);
 	}
+
+
+    //Metodo invocable para ver si se hace algo con la magia
+    public string magic()
+    {   
+            return m_MagicType;  
+    }
 }
 
