@@ -17,14 +17,19 @@ public class Magic_Interactuable : MonoBehaviour {
     private bool tocando;
     private bool activated;
 
+	private Transform origin;
+	private Transform destination;
+
     // Use this for initialization
     void Awake () {
 
         player = GameObject.FindGameObjectWithTag("Player");
-        m_MagicButton = "Fire2";
+        m_MagicButton = "Fire2"; // boton derecho del raton
         tocando = false;
         activated = false;
 
+		origin = transform.Find ("Origin");
+		destination = transform.Find ("Destination");
     }
 	
 	// Update is called once per frame
@@ -66,7 +71,13 @@ public class Magic_Interactuable : MonoBehaviour {
         if(magicPlayerType == "Plant" && MagicElement == MagicType.Plant)
         {
             //crear escalera desde el punto desde este objeto hasta el reciver
-            Instantiate(Stair, transform.position, transform.rotation);
+			//Instantiate(Stair, transform.position, new Quaternion());
+
+			GameObject myStair = Instantiate(Stair);
+			myStair.transform.position = origin.position;
+			float myStairLength = (destination.position.y - origin.position.y)/3;
+			myStair.transform.localScale = new Vector3 (myStair.transform.lossyScale.x, myStairLength, myStair.transform.lossyScale.z);
+
             activated = true;
         }
         else if (magicPlayerType == "Fire" && MagicElement == MagicType.Fire)
@@ -79,7 +90,11 @@ public class Magic_Interactuable : MonoBehaviour {
         else if (magicPlayerType == "Ice" && MagicElement == MagicType.Ice)
         {
             //crear puente desde el punto desde este objeto hasta el reciver
-            Instantiate(Bridge, transform.position, transform.rotation);
+			//Instantiate(Bridge, transform.position, new Quaternion());
+			GameObject myBridge = Instantiate(Bridge);
+			myBridge.transform.position = origin.position;
+			float myBridgeLength = (destination.position.x - origin.position.x)/3;
+			myBridge.transform.localScale = new Vector3 (myBridgeLength, myBridge.transform.lossyScale.y, myBridge.transform.lossyScale.z);
             activated = true;
 
         }

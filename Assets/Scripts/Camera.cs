@@ -18,7 +18,7 @@ namespace UnityStandardAssets._2D
 			
         private void Update()
         {
-			transform.position = new Vector3 (target.position.x + offsetX, offsetY, transform.position.z);
+			transform.position = new Vector3 (target.position.x + offsetX, target.position.y + offsetY, transform.position.z);
         }
     }
 }

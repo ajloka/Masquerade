@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Character : MonoBehaviour
 	private float myGravity;
 	private bool onStairs = false;
     private string m_MagicType;
+	public Text magicTypeText;
 
     private void Awake()
     {
@@ -46,6 +48,7 @@ public class Character : MonoBehaviour
             m_MagicType = "Plant";
         }
 
+		magicTypeText.text = "Magic: " + m_MagicType;
     }
 
 
