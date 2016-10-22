@@ -7,8 +7,11 @@ namespace UnityStandardAssets._2D
     {
         private Transform target;
 
-		private int offsetX = 4;
-		private int offsetY = 2;
+		public Transform parallax;
+		private float parallaxSpeed = 0.5f; //From 0 to 1
+
+		private int offsetX = 9;
+		private int offsetY = 5;
 
 
         private void Start()
@@ -19,6 +22,8 @@ namespace UnityStandardAssets._2D
         private void Update()
         {
 			transform.position = new Vector3 (target.position.x + offsetX, target.position.y + offsetY, transform.position.z);
+			if (parallax) 
+				parallax.position = new Vector3 (this.transform.position.x * parallaxSpeed, parallax.position.y, parallax.position.z);
         }
     }
 }

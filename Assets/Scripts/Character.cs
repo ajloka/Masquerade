@@ -48,7 +48,8 @@ public class Character : MonoBehaviour
             m_MagicType = "Plant";
         }
 
-		magicTypeText.text = "Magic: " + m_MagicType;
+		if (magicTypeText)
+			magicTypeText.text = "Magic: " + m_MagicType;
     }
 
 
