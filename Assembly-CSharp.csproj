@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Camera.cs" />
      <Compile Include="Assets\Scripts\Character.cs" />
+     <Compile Include="Assets\Scripts\Magic_DestinationTrigger.cs" />
      <Compile Include="Assets\Scripts\Magic_Interactuable.cs" />
      <Compile Include="Assets\Scripts\Stairs.cs" />
  <Reference Include="UnityEngine.UI">
