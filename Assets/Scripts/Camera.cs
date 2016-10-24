@@ -12,6 +12,7 @@ namespace UnityStandardAssets._2D
 
 		private int offsetX = 9;
 		private int offsetY = 5;
+		private float offsetYv2 = 3.5f;
 
 
         private void Start()
@@ -21,7 +22,7 @@ namespace UnityStandardAssets._2D
 			
         private void Update()
         {
-			this.transform.position = new Vector3 (player.position.x + offsetX, player.position.y + offsetY, transform.position.z);
+			this.transform.position = new Vector3 (player.position.x + offsetX, /*player.position.y + offsetY */ offsetYv2, transform.position.z);
 
 			//background.transform.position = transform.position;
 
