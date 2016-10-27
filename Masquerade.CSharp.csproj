@@ -82,7 +82,9 @@
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\Magic_DestinationTrigger.cs" />
     <Compile Include="Assets\Scripts\Magic_Interactuable.cs" />
+    <Compile Include="Assets\Scripts\Patrol.cs" />
     <Compile Include="Assets\Scripts\Stairs.cs" />
+    <Compile Include="Assets\Scripts\TriggerScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
