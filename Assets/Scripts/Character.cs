@@ -4,7 +4,9 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-	
+	public int health = 100;
+	public int attack = 10;
+
 	private int maxSpeed = 10;
     
 	public LayerMask whatIsGround;	// A mask determining what is ground to the character
@@ -20,9 +22,16 @@ public class Character : MonoBehaviour
     private string m_MagicType;
 	public Text magicTypeText;
 
+	private Transform weapon;
+	private Vector2 weaponSize;
+	public LayerMask whatIsEnemy;
+	private bool alreadyAttacked;
+
     private void Awake()
     {
         groundCheck = transform.Find("GroundCheck");
+		weapon = transform.Find("Weapon");
+		weaponSize = weapon.GetComponent<BoxCollider2D> ().size;
         myRigidbody = GetComponent<Rigidbody2D>();
 		groundedRadius = (GetComponent<BoxCollider2D> ().size.x * transform.lossyScale.x) / 2;//transform.localScale.x;
 		myGravity = myRigidbody.gravityScale;
@@ -61,14 +70,21 @@ public class Character : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].gameObject != gameObject)
+            if (colliders[i].gameObject != this.gameObject)
                 grounded = true;
         }
 
 		float movement = Input.GetAxisRaw ("Horizontal");
 		float stairsUpDown = onStairs ? Input.GetAxisRaw ("Vertical") : 0;
-		//bool attack = Input.GetAxisRaw ("Jump") == 1
 		Move (movement, stairsUpDown);
+
+		bool attack = Input.GetAxisRaw ("Jump") == 1;
+		if (attack && !alreadyAttacked) {
+			Attack ();
+			alreadyAttacked = true;
+		}
+		if (!attack)
+			alreadyAttacked = false;
     }
 
 
@@ -106,5 +122,20 @@ public class Character : MonoBehaviour
     {   
             return m_MagicType;  
     }
+
+
+	void Attack(){
+		Collider2D[] enemies = Physics2D.OverlapBoxAll(weapon.position, weaponSize, 0, whatIsEnemy);
+		foreach (Collider2D enemyCollider in enemies) {
+			Enemy enemy = enemyCollider.GetComponent<Enemy> ();
+			enemy.receiveAttack (attack);
+		}
+	}
+
+	public void receiveAttack(int damage){
+		health -= damage;
+		if (health <= 0)
+			GetComponent<SpriteRenderer> ().color = Color.red;
+	}
 }
 

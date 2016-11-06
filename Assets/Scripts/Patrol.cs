@@ -5,8 +5,8 @@ public class Patrol : MonoBehaviour
 {
 
     private Transform waypoint;
-    private CircleCollider2D TriggerOut;
-    private CircleCollider2D TriggerIn;
+    //private CircleCollider2D TriggerOut;
+    //private CircleCollider2D TriggerIn;
     private GameObject enemy;
 
     private GameObject player;
@@ -15,6 +15,8 @@ public class Patrol : MonoBehaviour
     
     public float speed;
     private int index = 1;
+
+	bool waiting = false;
 
     // Use this for initialization
     void Awake()
@@ -30,21 +32,23 @@ public class Patrol : MonoBehaviour
 
 
         //Los dos triggers
-        TriggerOut = transform.Find("TriggerOut").GetComponent<CircleCollider2D>();
-        TriggerIn = transform.Find("TriggerIn").GetComponent<CircleCollider2D>();
+        //TriggerOut = transform.Find("TriggerOut").GetComponent<CircleCollider2D>();
+        //TriggerIn = transform.Find("TriggerIn").GetComponent<CircleCollider2D>();
 
         //Pone los triggers donde este el enemigo
-        TriggerOut.transform.position = enemy.transform.position;
-        TriggerIn.transform.position = enemy.transform.position;
-
-
+        //TriggerOut.transform.position = enemy.transform.position;
+        //TriggerIn.transform.position = enemy.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Mira si ha de perseguir al player o patrullar
-        if (playerOnReach)
+		
+        //Mira si ha de esperar, o si ha de de perseguir al player o patrullar
+		if (waiting) {
+			return;
+		}
+        else if (playerOnReach)
         {
             Persigue();
         }
@@ -65,17 +69,28 @@ public class Patrol : MonoBehaviour
         if (enemy.transform.position == waypoint.position)
         {
             //Hace un flip al llegar
-            if (index == 2) { index = 1; Flip(); }
-            else { index = 2; Flip(); }
+            if (index == 2) {
+				index = 1;
+				//Flip();
+			}
+            else {
+				index = 2;
+				//Flip();
+			}
             waypoint = transform.Find("Point" + index).GetComponent<Transform>();
 
         }
 
         //Mueve el enemigo y a los triggers con el
         enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, waypoint.position, step);
-        TriggerOut.transform.position = enemy.transform.position;
-        TriggerIn.transform.position = enemy.transform.position;
-
+        //TriggerOut.transform.position = enemy.transform.position;
+        //TriggerIn.transform.position = enemy.transform.position;
+		/*
+		if (enemy.transform.lossyScale.x > 0 && waypoint.transform.position.x - enemy.transform.position.x > 0
+			|| enemy.transform.lossyScale.x < 0 && waypoint.transform.position.x - enemy.transform.position.x < 0)
+			Flip ();
+		*/
+		CheckIfFlip (waypoint.transform);
     }
 
     void Persigue()
@@ -87,17 +102,31 @@ public class Patrol : MonoBehaviour
 
         //Aplica el movimiento al enemigo y los triggers
         enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, playerPos, step);
-        TriggerOut.transform.position = enemy.transform.position;
-        TriggerIn.transform.position = enemy.transform.position;
+        //TriggerOut.transform.position = enemy.transform.position;
+        //TriggerIn.transform.position = enemy.transform.position;
 
+		/*
+		if (enemy.transform.lossyScale.x > 0 && player.transform.position.x - enemy.transform.position.x > 0
+			|| enemy.transform.lossyScale.x < 0 && player.transform.position.x - enemy.transform.position.x < 0)
+			Flip ();
+		*/
+		CheckIfFlip (player.transform);
     }
-
+	/*
     private void Flip()
     {
 
         enemy.transform.localScale = new Vector3(enemy.transform.localScale.x * -1, enemy.transform.localScale.y, enemy.transform.localScale.z);
         
     }
+    */
+
+	private void CheckIfFlip(Transform targetToMove)
+	{
+		if (enemy.transform.lossyScale.x > 0 && targetToMove.position.x - enemy.transform.position.x > 0
+			|| enemy.transform.lossyScale.x < 0 && targetToMove.position.x - enemy.transform.position.x < 0)
+			enemy.transform.localScale = new Vector3(enemy.transform.localScale.x * -1, enemy.transform.localScale.y, enemy.transform.localScale.z);
+	}
 
     //Funcion llamada desde los triggers
     public void setPlayerOnReach(bool aux)
@@ -106,7 +135,9 @@ public class Patrol : MonoBehaviour
     }
 
 
-
+	public void setWaiting(bool waiting){
+		this.waiting = waiting;
+	}
 
 
 }

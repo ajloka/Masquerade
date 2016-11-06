@@ -17,19 +17,19 @@ public class TriggerScript : MonoBehaviour {
 	
 	}
 
-        void OnTriggerEnter2D(Collider2D other)
-        {
-        
-        //Si es IN
-        if (isIn)
-        {
-            if (other.tag == "Player")
-            {
-                //Pone a ture perseguir al jugador
-                gameObject.GetComponentInParent<Patrol>().setPlayerOnReach(true);
-                
-            }
-        }
+	void OnTriggerEnter2D(Collider2D other)
+    {
+    
+	    //Si es IN
+	    if (isIn)
+	    {
+	        if (other.tag == "Player")
+	        {
+	            //Pone a ture perseguir al jugador
+	            gameObject.GetComponentInParent<Patrol>().setPlayerOnReach(true);
+	            
+	        }
+	    }
 
    }
 
