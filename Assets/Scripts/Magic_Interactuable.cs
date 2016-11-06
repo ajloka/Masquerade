@@ -7,13 +7,15 @@ public class Magic_Interactuable : MonoBehaviour {
     public enum MagicType { Plant, Ice, Fire};
     public MagicType MagicElement; // magicType == MagicType.Plant;
 
-    public Transform reciver;
-    GameObject player;
+    //public Transform reciver;
     public GameObject Stair;
     public GameObject Bridge;
 
+	private GameObject player;
+	private Character playerScript;
+
     private string m_Type;
-	private string m_MagicButton = "Fire2"; // boton derecho del raton
+	private string m_MagicButton = "Fire2"; // boton derecho del raton, o tecla "R" del teclado
 	private bool touching = false;
     private bool activated = false;
 	private bool finished;
@@ -29,6 +31,7 @@ public class Magic_Interactuable : MonoBehaviour {
     void Awake () {
 
         player = GameObject.FindGameObjectWithTag("Player");
+		playerScript = player.GetComponent<Character> ();
 
 		origin = transform.Find ("Origin");
 		destination = transform.Find ("Destination");
@@ -39,10 +42,10 @@ public class Magic_Interactuable : MonoBehaviour {
 
 		if (touching && !activated) {
 			//Lee si el jugador pulsa la tecla de magia
-			if (Input.GetButtonDown (m_MagicButton)) {
-				m_Type = player.GetComponent<Character> ().magic ();
+			if (Input.GetButtonDown (m_MagicButton) && playerScript.magicAvailable()) {
+				m_Type = playerScript.magic ();
 				startTheMagic (m_Type);
-
+				playerScript.spendMagic ();
 			}
 		}
 		else if (activated && !finished) {

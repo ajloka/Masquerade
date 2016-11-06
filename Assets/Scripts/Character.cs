@@ -4,8 +4,12 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-	public int health = 100;
-	public int attack = 10;
+	private int maxHealth = 100;
+	private int health;
+	private int maxMagicAmount = 100;
+	private int magicAmount;
+	private int attack = 10;
+	private int fireAttack = 20;
 
 	private int speed = 0;
 	private int maxSpeed = 10;
@@ -24,6 +28,9 @@ public class Character : MonoBehaviour
     private string m_MagicType;
 	public Text magicTypeText;
 
+	public Slider healthSlider;
+	public Slider magicSlider;
+
 	private Transform weapon;
 	private Vector2 weaponSize;
 	public LayerMask whatIsEnemy;
@@ -31,6 +38,9 @@ public class Character : MonoBehaviour
 
     private void Awake()
     {
+		health = maxHealth;
+		magicAmount = maxMagicAmount;
+
         groundCheck = transform.Find("GroundCheck");
 		weapon = transform.Find("Weapon");
 		weaponSize = weapon.GetComponent<BoxCollider2D> ().size;
@@ -80,13 +90,13 @@ public class Character : MonoBehaviour
 		float stairsUpDown = onStairs ? Input.GetAxisRaw ("Vertical") : 0;
 		Move (movement, stairsUpDown);
 
-		bool attack = Input.GetAxisRaw ("Jump") == 1;
-		if (attack && !alreadyAttacked) {
+		bool attack = Input.GetButtonDown ("Jump");
+		if (attack)
 			Attack ();
-			alreadyAttacked = true;
-		}
-		if (!attack)
-			alreadyAttacked = false;
+
+		bool attackWithMagic = Input.GetButtonDown ("Fire2");
+		if (attackWithMagic && magicAmount > 0)
+			AttackWithMagic ();
     }
 
 
@@ -149,8 +159,46 @@ public class Character : MonoBehaviour
 
 	public void receiveAttack(int damage){
 		health -= damage;
+		healthSlider.value = health;
 		if (health <= 0)
 			GetComponent<SpriteRenderer> ().color = Color.red;
+	}
+
+	void AttackWithMagic(){
+		if (m_MagicType == "Plant")
+			return;
+
+		Collider2D[] enemies = Physics2D.OverlapBoxAll(weapon.position, weaponSize, 0, whatIsEnemy);
+		foreach (Collider2D enemyCollider in enemies) {
+			Enemy enemy = enemyCollider.GetComponent<Enemy> ();
+
+			if (m_MagicType == "Fire")
+				enemy.receiveFire (fireAttack);
+			else if (m_MagicType == "Ice")
+				enemy.receiveIce ();
+		}
+			
+		if (enemies.Length > 0) {
+			spendMagic ();
+		}
+	}
+
+	public void spendMagic(){
+		magicAmount -= 20;
+		if (magicAmount < 0)
+			magicAmount = 0;
+		magicSlider.value = magicAmount;
+	}
+
+	public void increaseMagic(int amount){
+		magicAmount += amount;
+		if (magicAmount > maxMagicAmount)
+			magicAmount = maxMagicAmount;
+		magicSlider.value = magicAmount;
+	}
+
+	public bool magicAvailable(){
+		return magicAmount > 0;
 	}
 }
 
