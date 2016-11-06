@@ -11,8 +11,8 @@ namespace UnityStandardAssets._2D
 		private float parallaxSpeed = 0.5f; //From 0 to 1
 
 		private int offsetX = 9;
-		private int offsetY = 5;
-		private float offsetYv2 = 3.5f;
+		private int offsetY = 4;
+		private float yCameraSpeed = 0.3f;
 
 
         private void Start()
@@ -22,7 +22,7 @@ namespace UnityStandardAssets._2D
 			
         private void Update()
         {
-			this.transform.position = new Vector3 (player.position.x + offsetX, /*player.position.y + offsetY */ offsetYv2, transform.position.z);
+			this.transform.position = new Vector3 (player.position.x + offsetX, offsetY + player.position.y*yCameraSpeed, transform.position.z);
 
 			//background.transform.position = transform.position;
 

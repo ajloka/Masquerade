@@ -7,6 +7,7 @@ public class Character : MonoBehaviour
 	public int health = 100;
 	public int attack = 10;
 
+	private int speed = 0;
 	private int maxSpeed = 10;
     
 	public LayerMask whatIsGround;	// A mask determining what is ground to the character
@@ -19,6 +20,7 @@ public class Character : MonoBehaviour
 
 	private float myGravity;
 	private bool onStairs = false;
+	private int numStairs = 0; //number of stairs being touched at the same time
     private string m_MagicType;
 	public Text magicTypeText;
 
@@ -92,12 +94,18 @@ public class Character : MonoBehaviour
     {
         //only control the player if grounded
 		if (grounded) {
-			myRigidbody.velocity = new Vector2 (movement * maxSpeed, onStairs ? stairsUpDown * maxSpeed : myRigidbody.velocity.y);
+			if (movement == 0)
+				speed = 0;
+			else {
+				speed += 1;
+				if (speed > maxSpeed)
+					speed = maxSpeed;
+			}
+			myRigidbody.velocity = new Vector2 (movement * speed, onStairs ? stairsUpDown * maxSpeed : myRigidbody.velocity.y);
 
 			if (movement > 0 && !facingRight || movement < 0 && facingRight)
 				Flip ();
-		}
-		else if (myRigidbody.velocity.y > 0)
+		} else if (myRigidbody.velocity.y > 0)
 			myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, 0);
     }
 
@@ -111,8 +119,15 @@ public class Character : MonoBehaviour
 
 
 	public void setOnStairs(bool onStairs){
-		this.onStairs = onStairs;
-		myRigidbody.gravityScale = onStairs ? 0 : myGravity;
+		//this.onStairs = onStairs;
+		if (onStairs)
+			this.numStairs++;
+		else
+			this.numStairs--;
+
+		this.onStairs = numStairs > 0;
+
+		myRigidbody.gravityScale = this.onStairs ? 0 : myGravity;
 		myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, 0);
 	}
 
