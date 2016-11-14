@@ -7,8 +7,11 @@ namespace UnityStandardAssets._2D
     {
 		private Transform player;
 
-		public Transform parallax;
-		private float parallaxSpeed = 0.5f; //From 0 to 1
+		public Transform parallax1;
+		private float parallax1Speed = 0.5f; //From 0 to 1
+
+		public Transform parallax2;
+		private float parallax2Speed = 0.4f; //From 0 to 1
 
 		private int offsetX = 9;
 		private int offsetY = 4;
@@ -24,10 +27,10 @@ namespace UnityStandardAssets._2D
         {
 			this.transform.position = new Vector3 (player.position.x + offsetX, offsetY + player.position.y*yCameraSpeed, transform.position.z);
 
-			//background.transform.position = transform.position;
-
-			if (parallax) 
-				parallax.position = new Vector3 (this.transform.position.x * parallaxSpeed, parallax.position.y, parallax.position.z);
+			if (parallax1) 
+				parallax1.position = new Vector3 (this.transform.position.x * parallax1Speed, parallax1.position.y, parallax1.position.z);
+			if (parallax2) 
+				parallax2.position = new Vector3 (this.transform.position.x * parallax2Speed, parallax2.position.y, parallax2.position.z);
         }
     }
 }
