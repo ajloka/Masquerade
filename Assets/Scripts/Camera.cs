@@ -8,10 +8,10 @@ namespace UnityStandardAssets._2D
 		private Transform player;
 
 		public Transform parallax1;
-		private float parallax1Speed = 0.5f; //From 0 to 1
+		public float parallax1Speed = 0.5f; //From 0 to 1
 
 		public Transform parallax2;
-		private float parallax2Speed = 0.4f; //From 0 to 1
+		public float parallax2Speed = 0.4f; //From 0 to 1
 
 		private int offsetX = 9;
 		private int offsetY = 4;

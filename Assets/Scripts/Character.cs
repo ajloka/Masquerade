@@ -200,7 +200,7 @@ public class Character : MonoBehaviour
 	}
 
 	public void spendMagic(){
-		magicAmount -= 20;
+		magicAmount -= 25;
 		if (magicAmount < 0)
 			magicAmount = 0;
 		magicSlider.value = magicAmount;
