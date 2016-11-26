@@ -10,6 +10,7 @@ public class Patrol : MonoBehaviour
     private GameObject enemy;
 
     private GameObject player;
+    private Rigidbody2D myRigidbody;
 
     bool playerOnReach = false;
     
@@ -30,18 +31,13 @@ public class Patrol : MonoBehaviour
         //El jugador
         player = GameObject.FindGameObjectWithTag("Player");
 
+        myRigidbody = GetComponent<Rigidbody2D>();
 
-        //Los dos triggers
-        //TriggerOut = transform.Find("TriggerOut").GetComponent<CircleCollider2D>();
-        //TriggerIn = transform.Find("TriggerIn").GetComponent<CircleCollider2D>();
-
-        //Pone los triggers donde este el enemigo
-        //TriggerOut.transform.position = enemy.transform.position;
-        //TriggerIn.transform.position = enemy.transform.position;
+        
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 		
         //Mira si ha de esperar, o si ha de de perseguir al player o patrullar
@@ -79,18 +75,15 @@ public class Patrol : MonoBehaviour
 			}
             waypoint = transform.Find("Point" + index).GetComponent<Transform>();
 
+            //myRigidbody.velocity = new Vector2();
+
         }
 
         //Mueve el enemigo y a los triggers con el
         enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, waypoint.position, step);
-        //TriggerOut.transform.position = enemy.transform.position;
-        //TriggerIn.transform.position = enemy.transform.position;
-		/*
-		if (enemy.transform.lossyScale.x > 0 && waypoint.transform.position.x - enemy.transform.position.x > 0
-			|| enemy.transform.lossyScale.x < 0 && waypoint.transform.position.x - enemy.transform.position.x < 0)
-			Flip ();
-		*/
+         
 		CheckIfFlip (waypoint.transform);
+
     }
 
     void Persigue()
@@ -102,15 +95,10 @@ public class Patrol : MonoBehaviour
 
         //Aplica el movimiento al enemigo y los triggers
         enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, playerPos, step);
-        //TriggerOut.transform.position = enemy.transform.position;
-        //TriggerIn.transform.position = enemy.transform.position;
+        //myRigidbody.velocity = new Vector2();
 
-		/*
-		if (enemy.transform.lossyScale.x > 0 && player.transform.position.x - enemy.transform.position.x > 0
-			|| enemy.transform.lossyScale.x < 0 && player.transform.position.x - enemy.transform.position.x < 0)
-			Flip ();
-		*/
-		CheckIfFlip (player.transform);
+
+        CheckIfFlip(player.transform);
     }
 	/*
     private void Flip()

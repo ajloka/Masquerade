@@ -204,14 +204,17 @@ public class Character : MonoBehaviour
 		if (magicAmount < 0)
 			magicAmount = 0;
 		magicSlider.value = magicAmount;
-	}
+        anim.SetTrigger("Magic");
+
+    }
 
 	public void increaseMagic(int amount){
 		magicAmount += amount;
 		if (magicAmount > maxMagicAmount)
 			magicAmount = maxMagicAmount;
 		magicSlider.value = magicAmount;
-	}
+       
+    }
 
 	public bool magicAvailable(){
 		return magicAmount > 0;
