@@ -31,7 +31,9 @@ public class Character : MonoBehaviour
 	public Slider healthSlider;
 	public Slider magicSlider;
 
-	private Transform weapon;
+    Animator anim;
+
+    private Transform weapon;
 	private Vector2 weaponSize;
 	public LayerMask whatIsEnemy;
 	private bool alreadyAttacked;
@@ -47,6 +49,9 @@ public class Character : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
 		groundedRadius = (GetComponent<BoxCollider2D> ().size.x * transform.lossyScale.x) / 2;//transform.localScale.x;
 		myGravity = myRigidbody.gravityScale;
+
+        anim = GetComponent<Animator>();
+
 
         m_MagicType = "Plant";
     }
@@ -88,6 +93,13 @@ public class Character : MonoBehaviour
 
 		float movement = Input.GetAxisRaw ("Horizontal");
 		float stairsUpDown = onStairs ? Input.GetAxisRaw ("Vertical") : 0;
+
+        if (movement != 0 || stairsUpDown != 0)
+        {
+            anim.SetBool("IsRunning", true);
+        }
+        else { anim.SetBool("IsRunning", false); }
+
 		Move (movement, stairsUpDown);
 
 		bool attack = Input.GetButtonDown ("Jump");
@@ -103,14 +115,14 @@ public class Character : MonoBehaviour
 	public void Move(float movement, float stairsUpDown)
     {
         //only control the player if grounded
-		if (grounded) {
-			if (movement == 0)
-				speed = 0;
-			else {
-				speed += 1;
-				if (speed > maxSpeed)
-					speed = maxSpeed;
-			}
+        if (grounded) {
+            if (movement == 0) { 
+            speed = 0;}
+        else {
+            speed += 1;
+            if (speed > maxSpeed)
+                speed = maxSpeed;
+        }
 			myRigidbody.velocity = new Vector2 (movement * speed, onStairs ? stairsUpDown * maxSpeed : myRigidbody.velocity.y);
 
 			if (movement > 0 && !facingRight || movement < 0 && facingRight)
@@ -150,8 +162,12 @@ public class Character : MonoBehaviour
 
 
 	void Attack(){
+
 		Collider2D[] enemies = Physics2D.OverlapBoxAll(weapon.position, weaponSize, 0, whatIsEnemy);
-		foreach (Collider2D enemyCollider in enemies) {
+
+        anim.SetTrigger("Attak");
+
+        foreach (Collider2D enemyCollider in enemies) {
 			Enemy enemy = enemyCollider.GetComponent<Enemy> ();
 			enemy.receiveAttack (attack);
 		}

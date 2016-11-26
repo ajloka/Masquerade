@@ -1,9 +1,40 @@
 fileFormatVersion: 2
 guid: 4972bd3dc97c1684180f2e50672a7bea
-timeCreated: 1479724880
+timeCreated: 1479807526
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: spritesheet_ataque_Nabo_0
+    21300002: spritesheet_ataque_Nabo_1
+    21300004: spritesheet_ataque_Nabo_2
+    21300006: spritesheet_ataque_Nabo_3
+    21300008: spritesheet_ataque_Nabo_4
+    21300010: spritesheet_ataque_Nabo_5
+    21300012: spritesheet_ataque_Nabo_6
+    21300014: spritesheet_ataque_Nabo_7
+    21300016: spritesheet_ataque_Nabo_8
+    21300018: spritesheet_ataque_Nabo_9
+    21300020: spritesheet_ataque_Nabo_10
+    21300022: spritesheet_ataque_Nabo_11
+    21300024: spritesheet_ataque_Nabo_12
+    21300026: spritesheet_ataque_Nabo_13
+    21300028: spritesheet_ataque_Nabo_14
+    21300030: spritesheet_ataque_Nabo_15
+    21300032: spritesheet_ataque_Nabo_16
+    21300034: spritesheet_ataque_Nabo_17
+    21300036: spritesheet_ataque_Nabo_18
+    21300038: spritesheet_ataque_Nabo_19
+    21300040: spritesheet_ataque_Nabo_20
+    21300042: spritesheet_ataque_Nabo_21
+    21300044: spritesheet_ataque_Nabo_22
+    21300046: spritesheet_ataque_Nabo_23
+    21300048: spritesheet_ataque_Nabo_24
+    21300050: spritesheet_ataque_Nabo_25
+    21300052: spritesheet_ataque_Nabo_26
+    21300054: spritesheet_ataque_Nabo_27
+    21300056: spritesheet_ataque_Nabo_28
+    21300058: spritesheet_ataque_Nabo_29
+    21300060: spritesheet_ataque_Nabo_30
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,7 +87,410 @@ TextureImporter:
     allowsAlphaSplitting: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1719
+        width: 338
+        height: 552
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_1
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 1719
+        width: 338
+        height: 553
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_2
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 1719
+        width: 336
+        height: 555
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_3
+      rect:
+        serializedVersion: 2
+        x: 1147
+        y: 1719
+        width: 336
+        height: 555
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_4
+      rect:
+        serializedVersion: 2
+        x: 1529
+        y: 1719
+        width: 348
+        height: 556
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_5
+      rect:
+        serializedVersion: 2
+        x: 1910
+        y: 1719
+        width: 358
+        height: 558
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_6
+      rect:
+        serializedVersion: 2
+        x: 2292
+        y: 1719
+        width: 366
+        height: 558
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_7
+      rect:
+        serializedVersion: 2
+        x: 2674
+        y: 1719
+        width: 372
+        height: 559
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1147
+        width: 375
+        height: 561
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_9
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 1147
+        width: 377
+        height: 561
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_10
+      rect:
+        serializedVersion: 2
+        x: 764
+        y: 1147
+        width: 376
+        height: 563
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_11
+      rect:
+        serializedVersion: 2
+        x: 1147
+        y: 1147
+        width: 372
+        height: 563
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_12
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 1147
+        width: 365
+        height: 564
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_13
+      rect:
+        serializedVersion: 2
+        x: 1916
+        y: 1147
+        width: 357
+        height: 566
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_14
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 1147
+        width: 353
+        height: 566
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_15
+      rect:
+        serializedVersion: 2
+        x: 2684
+        y: 1147
+        width: 347
+        height: 567
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_16
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 576
+        width: 345
+        height: 567
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_17
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 576
+        width: 350
+        height: 567
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_18
+      rect:
+        serializedVersion: 2
+        x: 774
+        y: 576
+        width: 353
+        height: 567
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_19
+      rect:
+        serializedVersion: 2
+        x: 1156
+        y: 576
+        width: 357
+        height: 565
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_20
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 576
+        width: 364
+        height: 564
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_21
+      rect:
+        serializedVersion: 2
+        x: 1917
+        y: 576
+        width: 368
+        height: 564
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_22
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 576
+        width: 369
+        height: 562
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_23
+      rect:
+        serializedVersion: 2
+        x: 2681
+        y: 576
+        width: 368
+        height: 561
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_24
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 6
+        width: 365
+        height: 559
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_25
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 6
+        width: 361
+        height: 558
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_26
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 6
+        width: 356
+        height: 556
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_27
+      rect:
+        serializedVersion: 2
+        x: 1150
+        y: 6
+        width: 347
+        height: 556
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_28
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 6
+        width: 336
+        height: 555
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_29
+      rect:
+        serializedVersion: 2
+        x: 1913
+        y: 6
+        width: 336
+        height: 553
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: spritesheet_ataque_Nabo_30
+      rect:
+        serializedVersion: 2
+        x: 2295
+        y: 6
+        width: 336
+        height: 553
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 
