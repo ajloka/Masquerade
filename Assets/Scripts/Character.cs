@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
 	private int health;
 	private int maxMagicAmount = 100;
 	private int magicAmount;
-	private int attack = 10;
+	private int attack;
 	private int fireAttack = 20;
 
 	private int speed = 0;
@@ -46,6 +46,7 @@ public class Character : MonoBehaviour
     private void Awake()
     {
 		health = maxHealth;
+        attack = 1;
 		magicAmount = maxMagicAmount;
 
         groundCheck = transform.Find("GroundCheck");
@@ -253,5 +254,23 @@ public class Character : MonoBehaviour
 		}
 
 	}
+
+    public void setMask(int maskType, int damage, int heal)
+    {
+        attack = damage;
+        maxHealth = heal;
+        health = maxHealth;
+
+        //Cambiar sprites y animaciones
+
+        if (maskType == 1)
+        {
+           
+        }
+    }
+
+
+
+
 }
 
