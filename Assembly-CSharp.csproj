@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Character.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\EnemyAttackTrigger.cs" />
+     <Compile Include="Assets\Scripts\Interfaz.cs" />
      <Compile Include="Assets\Scripts\Magic_DestinationTrigger.cs" />
      <Compile Include="Assets\Scripts\Magic_Interactuable.cs" />
      <Compile Include="Assets\Scripts\Patrol.cs" />

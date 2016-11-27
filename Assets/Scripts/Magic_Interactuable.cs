@@ -45,7 +45,7 @@ public class Magic_Interactuable : MonoBehaviour {
 			if (Input.GetButtonDown (m_MagicButton) && playerScript.magicAvailable()) {
 				m_Type = playerScript.magic ();
 				startTheMagic (m_Type);
-				playerScript.spendMagic ();
+				//playerScript.spendMagic ();
 			}
 		}
 		else if (activated && !finished) {
@@ -89,12 +89,16 @@ public class Magic_Interactuable : MonoBehaviour {
 			invokedItem = myStair.transform;
 			growingDirection = new Vector3 (0, 1, 0);
 
+			playerScript.spendMagic ();
             activated = true;
         }
         else if (magicPlayerType == "Fire" && MagicElement == MagicType.Fire)
         {
             //Destruir objeto
-            Destroy(gameObject, 2);
+			GetComponent<SpriteRenderer>().color = Color.red;
+            Destroy(gameObject, 1);
+
+			playerScript.spendMagic ();
             activated = true;
 			finished = true;
 
@@ -113,6 +117,7 @@ public class Magic_Interactuable : MonoBehaviour {
 			invokedItem = myBridge.transform;
 			growingDirection = new Vector3 (1, 0, 0);
 
+			playerScript.spendMagic ();
             activated = true;
 
         }

@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour {
 	private int frozenTime = 2;
 	private Color iceColor = Color.cyan;
 
+	private bool dead = false;
+
 	void Awake () {
 		patrol = GetComponentInParent<Patrol> ();
 		attackTrigger = GetComponentInChildren<EnemyAttackTrigger> ();
@@ -36,6 +38,15 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void Update () {
+		if (dead) {
+			spriteRenderer.color = new Color (spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a - Time.deltaTime);
+			if (spriteRenderer.color.a <= 0)
+				this.gameObject.SetActive (false);
+			return;
+		}
+
+
+
 		if (frozen) {
 			patrol.setWaiting (true);
 			return;
@@ -77,25 +88,39 @@ public class Enemy : MonoBehaviour {
 		health -= damage;
 		lerpColorValue = 0;
 		withFire = true;
-		if (health <= 0)
+		if (health <= 0) {
 			die ();
+		}
 	}
 
 	public void receiveIce(){
 		frozen = true;
 		spriteRenderer.color = iceColor;
+
+		GetComponent<Animator> ().StartPlayback ();
+		GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 		myCollider.enabled = false;
+
 		Invoke ("endIce", frozenTime);
 	}
 
 	private void endIce(){
 		frozen = false;
 		spriteRenderer.color = originalColor;
+
+		GetComponent<Animator> ().StopPlayback ();
+		GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None;
 		myCollider.enabled = true;
 	}
 
 	private void die(){
 		player.increaseMagic (magicDropped);
-		this.gameObject.SetActive (false);
+
+		GetComponent<Animator> ().Stop ();
+		GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+		myCollider.enabled = false;
+		spriteRenderer.color = Color.black;
+		dead = true;
+		//this.gameObject.SetActive (false);
 	}
 }

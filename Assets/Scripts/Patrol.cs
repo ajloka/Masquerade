@@ -8,9 +8,10 @@ public class Patrol : MonoBehaviour
     //private CircleCollider2D TriggerOut;
     //private CircleCollider2D TriggerIn;
     private GameObject enemy;
+	private Rigidbody2D enemyRigidbody;
 
     private GameObject player;
-    private Rigidbody2D myRigidbody;
+    
 
     bool playerOnReach = false;
     
@@ -31,9 +32,7 @@ public class Patrol : MonoBehaviour
         //El jugador
         player = GameObject.FindGameObjectWithTag("Player");
 
-        myRigidbody = GetComponent<Rigidbody2D>();
-
-        
+		enemyRigidbody = enemy.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -59,10 +58,10 @@ public class Patrol : MonoBehaviour
 
     void Patrulla()
     {
-        float step = speed * Time.deltaTime;
+        //float step = speed * Time.deltaTime;
 
         //Si ya ha llegado a su destino, lo cambia
-        if (enemy.transform.position == waypoint.position)
+		if (Vector3.Distance(enemy.transform.position, waypoint.position) < 2)
         {
             //Hace un flip al llegar
             if (index == 2) {
@@ -80,7 +79,9 @@ public class Patrol : MonoBehaviour
         }
 
         //Mueve el enemigo y a los triggers con el
-        enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, waypoint.position, step);
+        //enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, waypoint.position, step);
+		int rightOrLeft = enemy.transform.position.x > waypoint.position.x ? -1 : 1;
+		enemyRigidbody.velocity = new Vector2 (rightOrLeft * speed, 0);
          
 		CheckIfFlip (waypoint.transform);
 
@@ -88,13 +89,16 @@ public class Patrol : MonoBehaviour
 
     void Persigue()
     {
-        float step = speed * Time.deltaTime;
+        //float step = speed * Time.deltaTime;
 
         //Encuentra la posicion en X del jugador, y la suya en Y
         var playerPos = new Vector2(player.transform.position.x, enemy.transform.position.y);
 
         //Aplica el movimiento al enemigo y los triggers
-        enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, playerPos, step);
+        //enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, playerPos, step);
+		int rightOrLeft = enemy.transform.position.x > playerPos.x ? -1 : 1;
+		enemyRigidbody.velocity = new Vector2 (rightOrLeft * speed, 0);
+
         //myRigidbody.velocity = new Vector2();
 
 

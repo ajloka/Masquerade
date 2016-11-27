@@ -13,11 +13,14 @@ public class Character : MonoBehaviour
 
 	private int speed = 0;
 	private int maxSpeed = 10;
+
+	private int fallingSpeedToGetHurt = 15;
     
 	public LayerMask whatIsGround;	// A mask determining what is ground to the character
 	private Transform groundCheck;	// A position marking where to check if the player is grounded.
 	private float groundedRadius;	// Radius of the overlap circle to determine if grounded
 	private bool grounded;			// Whether or not the player is grounded.
+	private bool previousGrounded;
 
 	private Rigidbody2D myRigidbody;
 	private bool facingRight = true;	// For determining which way the player is currently facing.
@@ -37,6 +40,8 @@ public class Character : MonoBehaviour
 	private Vector2 weaponSize;
 	public LayerMask whatIsEnemy;
 	private bool alreadyAttacked;
+
+	public Vector3 velocidad;
 
     private void Awake()
     {
@@ -58,7 +63,7 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-
+		velocidad = myRigidbody.velocity;
     
         //Lee si se cmabia el tipo de magia
         if (Input.GetKey("left"))
@@ -81,15 +86,12 @@ public class Character : MonoBehaviour
 
     private void FixedUpdate()
     {
-        grounded = false;
+		previousGrounded = grounded;
 
-        // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].gameObject != this.gameObject)
-                grounded = true;
-        }
+		grounded = checkGrounded ();
+
+		checkFallingHurts ();
+
 
 		float movement = Input.GetAxisRaw ("Horizontal");
 		float stairsUpDown = onStairs ? Input.GetAxisRaw ("Vertical") : 0;
@@ -116,18 +118,20 @@ public class Character : MonoBehaviour
     {
         //only control the player if grounded
         if (grounded) {
-            if (movement == 0) { 
-            speed = 0;}
-        else {
-            speed += 1;
-            if (speed > maxSpeed)
-                speed = maxSpeed;
-        }
+            if (movement == 0){ 
+            	speed = 0;
+			}
+		    else {
+		        speed += 1;
+		        if (speed > maxSpeed)
+		            speed = maxSpeed;
+		    }
 			myRigidbody.velocity = new Vector2 (movement * speed, onStairs ? stairsUpDown * maxSpeed : myRigidbody.velocity.y);
 
 			if (movement > 0 && !facingRight || movement < 0 && facingRight)
 				Flip ();
-		} else if (myRigidbody.velocity.y > 0)
+		}
+		else if (myRigidbody.velocity.y > 0)
 			myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, 0);
     }
 
@@ -213,11 +217,41 @@ public class Character : MonoBehaviour
 		if (magicAmount > maxMagicAmount)
 			magicAmount = maxMagicAmount;
 		magicSlider.value = magicAmount;
-       
+
+		//el incremento de vida es fijo
+		int lifeAmount = 5;
+		health += lifeAmount;
+		if (health > maxHealth)
+			health = maxHealth;
+		healthSlider.value = health;
     }
 
 	public bool magicAvailable(){
 		return magicAmount > 0;
+	}
+
+	private bool checkGrounded(){
+		bool grounded = false;
+
+		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			if (colliders[i].gameObject != this.gameObject)
+				grounded = true;
+		}
+
+		return grounded;
+	}
+
+	private void checkFallingHurts(){
+		if (!previousGrounded && grounded && myRigidbody.velocity.y < -15) {
+			health -= Mathf.Abs((int)myRigidbody.velocity.y) * 3;
+			healthSlider.value = health;
+			if (health <= 0)
+				GetComponent<SpriteRenderer> ().color = Color.red;
+		}
+
 	}
 }
 
