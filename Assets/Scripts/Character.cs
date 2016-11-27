@@ -8,8 +8,10 @@ public class Character : MonoBehaviour
 	private int health;
 	private int maxMagicAmount = 100;
 	private int magicAmount;
-	private int attack;
+	private int attack = 1;
 	private int fireAttack = 20;
+
+	private Mask.MaskType myMask = Mask.MaskType.Cartón;
 
 	private int speed = 0;
 	private int maxSpeed = 10;
@@ -41,12 +43,9 @@ public class Character : MonoBehaviour
 	public LayerMask whatIsEnemy;
 	private bool alreadyAttacked;
 
-	public Vector3 velocidad;
-
     private void Awake()
     {
 		health = maxHealth;
-        attack = 1;
 		magicAmount = maxMagicAmount;
 
         groundCheck = transform.Find("GroundCheck");
@@ -64,20 +63,22 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-		velocidad = myRigidbody.velocity;
     
         //Lee si se cmabia el tipo de magia
         if (Input.GetKey("left"))
         {
             m_MagicType = "Ice";
+			magicTypeText.color = Color.cyan;
         }
         if (Input.GetKey("right"))
         {
             m_MagicType = "Fire";
+			magicTypeText.color = new Color (0.8f, 0, 0); //rojo oscuro
         }
         if (Input.GetKey("up"))
         {
             m_MagicType = "Plant";
+			magicTypeText.color = Color.green;
         }
 
 		if (magicTypeText)
@@ -186,6 +187,9 @@ public class Character : MonoBehaviour
 	}
 
 	void AttackWithMagic(){
+		if (myMask != Mask.MaskType.Cartón)
+			return;
+
 		if (m_MagicType == "Plant")
 			return;
 
@@ -255,18 +259,35 @@ public class Character : MonoBehaviour
 
 	}
 
-    public void setMask(int maskType, int damage, int heal)
-    {
-        attack = damage;
-        maxHealth = heal;
-        health = maxHealth;
+	public Mask.MaskType getMask(){
+		return myMask;
+	}
 
+	public void setMask(Mask.MaskType maskType)
+    {
         //Cambiar sprites y animaciones
 
-        if (maskType == 1)
-        {
-           
-        }
+		myMask = maskType;
+
+		switch (maskType) {
+		case Mask.MaskType.Cartón:
+			attack = 1;
+			maxHealth = 100;
+			break;
+
+		case Mask.MaskType.Japo:
+			attack = 10;
+			maxHealth = 120;
+			break;
+
+		case Mask.MaskType.Espartano:
+
+			break;
+
+		case Mask.MaskType.Vikingo:
+
+			break;
+		}
     }
 
 

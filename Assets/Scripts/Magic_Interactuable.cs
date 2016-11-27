@@ -39,8 +39,7 @@ public class Magic_Interactuable : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		if (touching && !activated) {
+		if (touching && !activated && playerScript.getMask() == Mask.MaskType.Cartón) {
 			//Lee si el jugador pulsa la tecla de magia
 			if (Input.GetButtonDown (m_MagicButton) && playerScript.magicAvailable()) {
 				m_Type = playerScript.magic ();

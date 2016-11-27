@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 public class Interfaz : MonoBehaviour {
 
 	public GameObject menuPausa;
+	private Character playerScript;
+
+	void Awake(){
+		playerScript = GameObject.FindGameObjectWithTag ("Player").GetComponent<Character> ();
+	}
 
 
 	void Update(){
@@ -35,6 +40,20 @@ public class Interfaz : MonoBehaviour {
 			Time.timeScale = 1;
 			menuPausa.SetActive (false);
 		}
+	}
+
+
+	public void CartonMask(){
+		playerScript.setMask (Mask.MaskType.Cartón);
+	}
+	public void JapoMask(){
+		playerScript.setMask (Mask.MaskType.Japo);
+	}
+	public void EspartanoMask(){
+		playerScript.setMask (Mask.MaskType.Espartano);
+	}
+	public void VikingoMask(){
+		playerScript.setMask (Mask.MaskType.Vikingo);
 	}
 
 }
