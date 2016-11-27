@@ -11,7 +11,15 @@ public class Character : MonoBehaviour
 	private int attack = 1;
 	private int fireAttack = 20;
 
+	private bool wait = false;
+
 	private Mask.MaskType myMask = Mask.MaskType.Cartón;
+
+	private Animator myAnimator;
+	public RuntimeAnimatorController BoxAnimatorController;
+	public RuntimeAnimatorController JapoAnimatorController;
+	//public Animator EspartanoAnimatorController;
+	//public Animator VikingoAnimatorController;
 
 	private int speed = 0;
 	private int maxSpeed = 10;
@@ -36,8 +44,6 @@ public class Character : MonoBehaviour
 	public Slider healthSlider;
 	public Slider magicSlider;
 
-    Animator anim;
-
     private Transform weapon;
 	private Vector2 weaponSize;
 	public LayerMask whatIsEnemy;
@@ -46,7 +52,7 @@ public class Character : MonoBehaviour
     private void Awake()
     {
 		health = maxHealth;
-		magicAmount = maxMagicAmount;
+		magicAmount = maxMagicAmount/2;
 
         groundCheck = transform.Find("GroundCheck");
 		weapon = transform.Find("Weapon");
@@ -55,7 +61,7 @@ public class Character : MonoBehaviour
 		groundedRadius = (GetComponent<BoxCollider2D> ().size.x * transform.lossyScale.x) / 2;//transform.localScale.x;
 		myGravity = myRigidbody.gravityScale;
 
-        anim = GetComponent<Animator>();
+        myAnimator = GetComponent<Animator>();
 
 
         m_MagicType = "Plant";
@@ -94,15 +100,18 @@ public class Character : MonoBehaviour
 
 		checkFallingHurts ();
 
+		if (wait)
+			return;
+			
 
 		float movement = Input.GetAxisRaw ("Horizontal");
 		float stairsUpDown = onStairs ? Input.GetAxisRaw ("Vertical") : 0;
 
         if (movement != 0 || stairsUpDown != 0)
         {
-            anim.SetBool("IsRunning", true);
+            myAnimator.SetBool("IsRunning", true);
         }
-        else { anim.SetBool("IsRunning", false); }
+        else { myAnimator.SetBool("IsRunning", false); }
 
 		Move (movement, stairsUpDown);
 
@@ -171,7 +180,8 @@ public class Character : MonoBehaviour
 
 		Collider2D[] enemies = Physics2D.OverlapBoxAll(weapon.position, weaponSize, 0, whatIsEnemy);
 
-        anim.SetTrigger("Attak");
+        myAnimator.SetTrigger("Attack");
+		startWaiting ();
 
         foreach (Collider2D enemyCollider in enemies) {
 			Enemy enemy = enemyCollider.GetComponent<Enemy> ();
@@ -213,8 +223,8 @@ public class Character : MonoBehaviour
 		if (magicAmount < 0)
 			magicAmount = 0;
 		magicSlider.value = magicAmount;
-        anim.SetTrigger("Magic");
-
+        myAnimator.SetTrigger("Magic");
+		startWaiting ();
     }
 
 	public void increaseMagic(int amount){
@@ -259,6 +269,17 @@ public class Character : MonoBehaviour
 
 	}
 
+	private void startWaiting(){
+		wait = true;
+		if (grounded)
+			myRigidbody.velocity = new Vector2 ();
+		Invoke ("stopWaiting", 0.3f);
+	}
+
+	private void stopWaiting(){
+		wait = false;
+	}
+
 	public Mask.MaskType getMask(){
 		return myMask;
 	}
@@ -269,15 +290,21 @@ public class Character : MonoBehaviour
 
 		myMask = maskType;
 
+		float relativeHealth = (float) health / (float) maxHealth ;
+
 		switch (maskType) {
 		case Mask.MaskType.Cartón:
 			attack = 1;
 			maxHealth = 100;
+			myAnimator.runtimeAnimatorController = BoxAnimatorController;
+			myAnimator.speed = 1;
 			break;
 
 		case Mask.MaskType.Japo:
-			attack = 10;
-			maxHealth = 120;
+			attack = 15;
+			maxHealth = 300;
+			myAnimator.runtimeAnimatorController = JapoAnimatorController;
+			myAnimator.speed = 2;
 			break;
 
 		case Mask.MaskType.Espartano:
@@ -288,6 +315,10 @@ public class Character : MonoBehaviour
 
 			break;
 		}
+			
+		health = (int)(relativeHealth * maxHealth);
+		healthSlider.maxValue = maxHealth;
+		healthSlider.value = health;
     }
 
 
