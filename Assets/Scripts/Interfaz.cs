@@ -13,7 +13,7 @@ public class Interfaz : MonoBehaviour {
 
 
 	void Update(){
-		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return)){
+		if (Input.GetKeyDown(KeyCode.Escape)){
 			activarDesactivarMenuPause ();
 		}
 

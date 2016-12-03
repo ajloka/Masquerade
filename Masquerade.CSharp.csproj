@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\Patrol.cs" />
     <Compile Include="Assets\Scripts\Stairs.cs" />
     <Compile Include="Assets\Scripts\TriggerScript.cs" />
+    <Compile Include="Assets\Scripts\TutorialText.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
