@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Patrol : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Patrol : MonoBehaviour
     //private CircleCollider2D TriggerIn;
     private GameObject enemy;
 	private Rigidbody2D enemyRigidbody;
+	private RectTransform enemyCanvas;
 
     private GameObject player;
     
@@ -33,6 +35,7 @@ public class Patrol : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
 
 		enemyRigidbody = enemy.GetComponent<Rigidbody2D>();
+		enemyCanvas = enemy.GetComponentInChildren<RectTransform> ();
     }
 
     // Update is called once per frame
@@ -116,8 +119,10 @@ public class Patrol : MonoBehaviour
 	private void CheckIfFlip(Transform targetToMove)
 	{
 		if (enemy.transform.lossyScale.x > 0 && targetToMove.position.x - enemy.transform.position.x > 0
-			|| enemy.transform.lossyScale.x < 0 && targetToMove.position.x - enemy.transform.position.x < 0)
-			enemy.transform.localScale = new Vector3(enemy.transform.localScale.x * -1, enemy.transform.localScale.y, enemy.transform.localScale.z);
+		    || enemy.transform.lossyScale.x < 0 && targetToMove.position.x - enemy.transform.position.x < 0) {
+			enemy.transform.localScale = new Vector3 (enemy.transform.localScale.x * -1, enemy.transform.localScale.y, enemy.transform.localScale.z);
+			enemyCanvas.localScale = new Vector3 (enemyCanvas.localScale.x * -1, enemyCanvas.localScale.y, enemyCanvas.localScale.z); //para que el canvas lo gire
+		}
 	}
 
     //Funcion llamada desde los triggers

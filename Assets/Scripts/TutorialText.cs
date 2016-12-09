@@ -7,17 +7,12 @@ public class TutorialText : MonoBehaviour
     public GameObject WASD;
     public GameObject Magia;
     public GameObject Mascara;
-
-    // Use this for initialization
-    void Awake()
-    {
-
-    }
+	private bool activado = false;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && activado)
         {
             DesactivarMenuPause();
 
@@ -35,15 +30,18 @@ public class TutorialText : MonoBehaviour
     private void DesactivarMenuPause()
     {
   
-            Time.timeScale = 1;
-            WASD.SetActive(false);
-            Magia.SetActive(false);
-            Mascara.SetActive(false);
-            //DestroyImmediate(this.gameObject);
+        Time.timeScale = 1;
+        WASD.SetActive(false);
+        Magia.SetActive(false);
+        Mascara.SetActive(false);
+        //DestroyImmediate(this.gameObject);
+		this.gameObject.SetActive(false);
     }
 
 
     void textTrigger() {
+
+		activado = true;
 
         switch (id)
         {

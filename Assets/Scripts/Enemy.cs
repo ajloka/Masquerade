@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
 
@@ -7,6 +8,8 @@ public class Enemy : MonoBehaviour {
 	public int attack = 5;
 	public float attackDelay = 0.5f;
 	public int magicDropped = 40;
+
+	private Slider healthSlider;
 
 	private float timeLastAttack = 0;
 
@@ -16,7 +19,7 @@ public class Enemy : MonoBehaviour {
 	private BoxCollider2D myCollider;
 
 	private SpriteRenderer spriteRenderer;
-	public Color originalColor;
+	private Color originalColor;
 
 	private bool withFire = false;
 	private Color fireColor = Color.red;
@@ -35,6 +38,10 @@ public class Enemy : MonoBehaviour {
 		spriteRenderer = GetComponent<SpriteRenderer> ();
 		originalColor = spriteRenderer.color;
 		myCollider = GetComponent<BoxCollider2D> ();
+
+		healthSlider = GetComponentInChildren<Slider> ();
+		healthSlider.maxValue = health;
+		healthSlider.value = healthSlider.maxValue;
 	}
 
 	void Update () {
@@ -76,6 +83,7 @@ public class Enemy : MonoBehaviour {
 
 	public void receiveAttack(int damage){
 		health -= damage;
+		healthSlider.value = health;
 		if (health <= 0)
 			die ();
 	}
@@ -86,6 +94,7 @@ public class Enemy : MonoBehaviour {
 
 	public void receiveFire(int damage){
 		health -= damage;
+		healthSlider.value = health;
 		lerpColorValue = 0;
 		withFire = true;
 		if (health <= 0) {
