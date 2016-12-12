@@ -49,6 +49,9 @@ public class Character : MonoBehaviour
 	public LayerMask whatIsEnemy;
 	private bool alreadyAttacked;
 
+	public GameObject gameOverScreen;
+	private ParticleSystem particulasMagia;
+
     private void Awake()
     {
 		health = maxHealth;
@@ -62,7 +65,7 @@ public class Character : MonoBehaviour
 		myGravity = myRigidbody.gravityScale;
 
         myAnimator = GetComponent<Animator>();
-
+		particulasMagia = GetComponentInChildren<ParticleSystem> ();
 
         m_MagicType = "Plant";
     }
@@ -100,6 +103,10 @@ public class Character : MonoBehaviour
 
 		checkFallingHurts ();
 
+		bool attackWithMagic = Input.GetButtonDown ("Fire2");
+		if (attackWithMagic && magicAmount > 0)
+			AttackWithMagic ();
+
 		if (wait)
 			return;
 			
@@ -118,10 +125,6 @@ public class Character : MonoBehaviour
 		bool attack = Input.GetButtonDown ("Jump");
 		if (attack)
 			Attack ();
-
-		bool attackWithMagic = Input.GetButtonDown ("Fire2");
-		if (attackWithMagic && magicAmount > 0)
-			AttackWithMagic ();
     }
 
 
@@ -192,8 +195,10 @@ public class Character : MonoBehaviour
 	public void receiveAttack(int damage){
 		health -= damage;
 		healthSlider.value = health;
-		if (health <= 0)
-			GetComponent<SpriteRenderer> ().color = Color.red;
+		if (health <= 0) {
+
+			death ();
+		}
 	}
 
 	void AttackWithMagic(){
@@ -224,7 +229,22 @@ public class Character : MonoBehaviour
 			magicAmount = 0;
 		magicSlider.value = magicAmount;
         myAnimator.SetTrigger("Magic");
-		startWaiting ();
+		startWaiting (1.2f);
+		//GameObject newParticulasMagia = Instantiate(particulasMagia.gameObject);
+		//newParticulasMagia.GetComponent<ParticleSystem> ().Play ();
+		//Destroy (newParticulasMagia, 4);
+		switch (m_MagicType) {
+		case ("Fire"):
+			particulasMagia.startColor = new Color (0.8f, 0, 0); //rojo oscuro
+			break;
+		case ("Plant"):
+			particulasMagia.startColor = Color.green;
+			break;
+		case ("Ice"):
+			particulasMagia.startColor = Color.cyan;
+			break;
+		}
+		particulasMagia.Play ();
     }
 
 	public void increaseMagic(int amount){
@@ -255,7 +275,6 @@ public class Character : MonoBehaviour
 			if (colliders[i].gameObject != this.gameObject)
 				grounded = true;
 		}
-
 		return grounded;
 	}
 
@@ -264,16 +283,17 @@ public class Character : MonoBehaviour
 			health -= Mathf.Abs((int)myRigidbody.velocity.y) * 3;
 			healthSlider.value = health;
 			if (health <= 0)
-				GetComponent<SpriteRenderer> ().color = Color.red;
+				death ();
 		}
 
 	}
 
-	private void startWaiting(){
+	private void startWaiting(float delay = 0.3f){
 		wait = true;
 		if (grounded)
 			myRigidbody.velocity = new Vector2 ();
-		Invoke ("stopWaiting", 0.3f);
+		myAnimator.SetBool("IsRunning", false);
+		Invoke ("stopWaiting", delay);
 	}
 
 	private void stopWaiting(){
@@ -298,6 +318,7 @@ public class Character : MonoBehaviour
 			maxHealth = 100;
 			myAnimator.runtimeAnimatorController = BoxAnimatorController;
 			myAnimator.speed = 1;
+			magicTypeText.enabled = true;
 			break;
 
 		case Mask.MaskType.Japo:
@@ -305,6 +326,7 @@ public class Character : MonoBehaviour
 			maxHealth = 300;
 			myAnimator.runtimeAnimatorController = JapoAnimatorController;
 			myAnimator.speed = 2;
+			magicTypeText.enabled = false;
 			break;
 
 		case Mask.MaskType.Espartano:
@@ -321,7 +343,12 @@ public class Character : MonoBehaviour
 		healthSlider.value = health;
     }
 
-
+	void death(){
+		GetComponent<SpriteRenderer> ().color = Color.red;
+		gameOverScreen.SetActive (true);
+		Time.timeScale = 0;
+		gameOverScreen.GetComponentInParent<Interfaz> ().NoPausar ();
+	}
 
 
 }

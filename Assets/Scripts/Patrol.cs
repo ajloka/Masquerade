@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class Patrol : MonoBehaviour
 {
 
+	public bool volador = false;
+
     private Transform waypoint;
     //private CircleCollider2D TriggerOut;
     //private CircleCollider2D TriggerIn;
@@ -85,6 +87,13 @@ public class Patrol : MonoBehaviour
         //enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, waypoint.position, step);
 		int rightOrLeft = enemy.transform.position.x > waypoint.position.x ? -1 : 1;
 		enemyRigidbody.velocity = new Vector2 (rightOrLeft * speed, 0);
+
+		if (volador) {
+			int upOrDown = enemy.transform.position.y > waypoint.position.y ? -1 : 1;
+			enemyRigidbody.velocity = new Vector2 (enemyRigidbody.velocity.x, upOrDown*speed);
+		}
+
+
          
 		CheckIfFlip (waypoint.transform);
 
@@ -95,12 +104,19 @@ public class Patrol : MonoBehaviour
         //float step = speed * Time.deltaTime;
 
         //Encuentra la posicion en X del jugador, y la suya en Y
-        var playerPos = new Vector2(player.transform.position.x, enemy.transform.position.y);
+        //var playerPos = new Vector2(player.transform.position.x, enemy.transform.position.y);
+		Vector3 playerPos = player.transform.position;
 
         //Aplica el movimiento al enemigo y los triggers
         //enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, playerPos, step);
 		int rightOrLeft = enemy.transform.position.x > playerPos.x ? -1 : 1;
 		enemyRigidbody.velocity = new Vector2 (rightOrLeft * speed, 0);
+
+		if (volador) {
+			int upOrDown = enemy.transform.position.y > playerPos.y ? -1 : 1;
+			enemyRigidbody.velocity = new Vector2 (enemyRigidbody.velocity.x, upOrDown*speed);
+		}
+
 
         //myRigidbody.velocity = new Vector2();
 
@@ -118,8 +134,8 @@ public class Patrol : MonoBehaviour
 
 	private void CheckIfFlip(Transform targetToMove)
 	{
-		if (enemy.transform.lossyScale.x > 0 && targetToMove.position.x - enemy.transform.position.x > 0
-		    || enemy.transform.lossyScale.x < 0 && targetToMove.position.x - enemy.transform.position.x < 0) {
+		if (enemy.transform.lossyScale.x > 0 && targetToMove.position.x - enemy.transform.position.x > 0.1f
+			|| enemy.transform.lossyScale.x < 0 && targetToMove.position.x - enemy.transform.position.x < -0.1f) {
 			enemy.transform.localScale = new Vector3 (enemy.transform.localScale.x * -1, enemy.transform.localScale.y, enemy.transform.localScale.z);
 			enemyCanvas.localScale = new Vector3 (enemyCanvas.localScale.x * -1, enemyCanvas.localScale.y, enemyCanvas.localScale.z); //para que el canvas lo gire
 		}

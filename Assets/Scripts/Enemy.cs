@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour {
 	private float lerpColorValue = 0;
 
 	private bool frozen = false;
-	private int frozenTime = 2;
+	private int frozenTime = 4;
 	private Color iceColor = Color.cyan;
 
 	private bool dead = false;

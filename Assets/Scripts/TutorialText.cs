@@ -42,22 +42,20 @@ public class TutorialText : MonoBehaviour
     void textTrigger() {
 
 		activado = true;
+		WASD.GetComponentInParent<Interfaz> ().NoPausar ();
+		Time.timeScale = 0;
 
         switch (id)
         {
             case 0:
-                Time.timeScale = 0;
                 WASD.SetActive(true);
-
                 break;
 
             case 1:
-                Time.timeScale = 0;
                 Magia.SetActive(true);
                 break;
 
             case 2:
-                Time.timeScale = 0;
                 Mascara.SetActive(true);
                 break;
 

@@ -6,6 +6,7 @@ public class Interfaz : MonoBehaviour {
 
 	public GameObject menuPausa;
 	private Character playerScript;
+	private bool noPausar = false;
 
 	void Awake(){
 		playerScript = GameObject.FindGameObjectWithTag ("Player").GetComponent<Character> ();
@@ -13,10 +14,12 @@ public class Interfaz : MonoBehaviour {
 
 
 	void Update(){
-		if (Input.GetKeyDown(KeyCode.Escape)){
+		if (Input.GetKeyDown (KeyCode.Escape) && !noPausar) {
 			activarDesactivarMenuPause ();
 		}
-
+		else if (noPausar && Time.timeScale != 0) {
+			noPausar = false;
+		}
 	}
 
 
@@ -54,6 +57,10 @@ public class Interfaz : MonoBehaviour {
 	}
 	public void VikingoMask(){
 		playerScript.setMask (Mask.MaskType.Vikingo);
+	}
+
+	public void NoPausar(){
+		noPausar = true;
 	}
 
 }
