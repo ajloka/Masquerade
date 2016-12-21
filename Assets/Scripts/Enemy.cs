@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour {
 	public float attackDelay = 0.5f;
 	public int magicDropped = 40;
 
+	public GameObject Fire;
+
 	private Slider healthSlider;
 
 	private float timeLastAttack = 0;
@@ -97,6 +99,12 @@ public class Enemy : MonoBehaviour {
 		healthSlider.value = health;
 		lerpColorValue = 0;
 		withFire = true;
+
+		Transform myFire = Instantiate (Fire).transform;
+		myFire.SetParent (this.transform);
+		myFire.localPosition = new Vector3(0,8,0);
+		Destroy (myFire.gameObject, 2);
+
 		if (health <= 0) {
 			die ();
 		}

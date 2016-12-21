@@ -10,6 +10,10 @@ public class Magic_Interactuable : MonoBehaviour {
     //public Transform reciver;
     public GameObject Stair;
     public GameObject Bridge;
+	public GameObject Fire;
+
+	private SpriteRenderer spriteRenderer;
+	private bool burning = false;
 
 	private GameObject player;
 	private Character playerScript;
@@ -35,6 +39,8 @@ public class Magic_Interactuable : MonoBehaviour {
 
 		origin = transform.Find ("Origin");
 		destination = transform.Find ("Destination");
+
+		spriteRenderer = GetComponent<SpriteRenderer> ();
     }
 	
 	// Update is called once per frame
@@ -51,6 +57,11 @@ public class Magic_Interactuable : MonoBehaviour {
 			invokedItem.localScale += growingDirection * growingSpeed * Time.deltaTime;
 		}
 	
+		if (burning) {
+			spriteRenderer.color = new Color (spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a - (Time.deltaTime * 0.5f));
+			if (spriteRenderer.color.a <= 0)
+				Destroy (this.gameObject);
+		}
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -94,8 +105,15 @@ public class Magic_Interactuable : MonoBehaviour {
         else if (magicPlayerType == "Fire" && MagicElement == MagicType.Fire)
         {
             //Destruir objeto
-			GetComponent<SpriteRenderer>().color = Color.red;
-            Destroy(gameObject, 1);
+
+			//GetComponent<SpriteRenderer>().color = Color.red;
+			Transform myFire = Instantiate (Fire).transform;
+			myFire.SetParent (this.transform);
+			myFire.localPosition = new Vector3(0,1,0);
+
+			burning = true;
+
+            //Destroy(gameObject, 2);
 
 			playerScript.spendMagic ();
             activated = true;
