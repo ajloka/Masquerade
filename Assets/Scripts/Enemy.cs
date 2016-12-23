@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour {
 		healthSlider = GetComponentInChildren<Slider> ();
 		healthSlider.maxValue = health;
 		healthSlider.value = healthSlider.maxValue;
+        healthSlider.gameObject.SetActive(false);
 	}
 
 	void Update () {
@@ -85,8 +86,9 @@ public class Enemy : MonoBehaviour {
 
 	public void receiveAttack(int damage){
 		health -= damage;
-		healthSlider.value = health;
-		if (health <= 0)
+        healthSlider.gameObject.SetActive(true);
+        healthSlider.value = health;
+        if (health <= 0)
 			die ();
 	}
 
