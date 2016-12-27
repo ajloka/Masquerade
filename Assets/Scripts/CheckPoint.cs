@@ -3,8 +3,10 @@ using System.Collections;
 
 public class CheckPoint : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    private Character player;
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -16,8 +18,9 @@ public class CheckPoint : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            
-        }
+            player = other.GetComponent<Character>();
+            player.healPlayer();
+}
 
     }
 }

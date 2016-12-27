@@ -87,6 +87,7 @@
     <Compile Include="Assets\Scripts\Magic_DestinationTrigger.cs" />
     <Compile Include="Assets\Scripts\Magic_Interactuable.cs" />
     <Compile Include="Assets\Scripts\Mask.cs" />
+    <Compile Include="Assets\Scripts\Meta.cs" />
     <Compile Include="Assets\Scripts\Patrol.cs" />
     <Compile Include="Assets\Scripts\Stairs.cs" />
     <Compile Include="Assets\Scripts\TriggerScript.cs" />

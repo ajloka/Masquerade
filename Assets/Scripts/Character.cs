@@ -350,6 +350,12 @@ public class Character : MonoBehaviour
 		gameOverScreen.GetComponentInParent<Interfaz> ().NoPausar ();
 	}
 
+    public void healPlayer()
+    {
+        health = maxHealth;
+    }
+    
+
 
 }
 
