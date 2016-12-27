@@ -78,6 +78,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Menu\Scripts\DontDestroy.cs" />
+    <Compile Include="Assets\Menu\Scripts\EventSystemChecker.cs" />
+    <Compile Include="Assets\Menu\Scripts\Pause.cs" />
+    <Compile Include="Assets\Menu\Scripts\PlayMusic.cs" />
+    <Compile Include="Assets\Menu\Scripts\QuitApplication.cs" />
+    <Compile Include="Assets\Menu\Scripts\SetAudioLevels.cs" />
+    <Compile Include="Assets\Menu\Scripts\ShowPanels.cs" />
+    <Compile Include="Assets\Menu\Scripts\StartOptions.cs" />
     <Compile Include="Assets\Scripts\Camera.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\CheckPoint.cs" />
@@ -92,6 +100,9 @@
     <Compile Include="Assets\Scripts\Stairs.cs" />
     <Compile Include="Assets\Scripts\TriggerScript.cs" />
     <Compile Include="Assets\Scripts\TutorialText.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Menu\Fonts\OpenSans\License!.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

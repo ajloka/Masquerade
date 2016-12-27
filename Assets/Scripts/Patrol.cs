@@ -15,7 +15,10 @@ public class Patrol : MonoBehaviour
 	private RectTransform enemyCanvas;
 
     private GameObject player;
-    
+    AudioSource enemyAudio;
+    public float m_PitchRange = 0.2f;
+    private float m_OriginalPitch;
+
 
     bool playerOnReach = false;
     
@@ -38,9 +41,13 @@ public class Patrol : MonoBehaviour
 
 		enemyRigidbody = enemy.GetComponent<Rigidbody2D>();
 		enemyCanvas = enemy.GetComponentInChildren<RectTransform> ();
+
+        enemyAudio = GetComponent<AudioSource>();
+        m_OriginalPitch = enemyAudio.pitch;
     }
 
     // Update is called once per frame
+
     void FixedUpdate()
     {
 		
@@ -64,9 +71,9 @@ public class Patrol : MonoBehaviour
     void Patrulla()
     {
         //float step = speed * Time.deltaTime;
-
+        
         //Si ya ha llegado a su destino, lo cambia
-		if (Vector3.Distance(enemy.transform.position, waypoint.position) < 2)
+        if (Vector3.Distance(enemy.transform.position, waypoint.position) < 2)
         {
             //Hace un flip al llegar
             if (index == 2) {
@@ -102,10 +109,10 @@ public class Patrol : MonoBehaviour
     void Persigue()
     {
         //float step = speed * Time.deltaTime;
-
+        
         //Encuentra la posicion en X del jugador, y la suya en Y
         //var playerPos = new Vector2(player.transform.position.x, enemy.transform.position.y);
-		Vector3 playerPos = player.transform.position;
+        Vector3 playerPos = player.transform.position;
 
         //Aplica el movimiento al enemigo y los triggers
         //enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, playerPos, step);
@@ -145,6 +152,11 @@ public class Patrol : MonoBehaviour
     public void setPlayerOnReach(bool aux)
     {
         playerOnReach = aux;
+        if (playerOnReach)
+        {
+            enemyAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+            enemyAudio.Play();
+        }
     }
 
 

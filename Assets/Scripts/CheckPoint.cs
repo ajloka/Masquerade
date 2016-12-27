@@ -20,6 +20,7 @@ public class CheckPoint : MonoBehaviour {
         {
             player = other.GetComponent<Character>();
             player.healPlayer();
+            Destroy(this.gameObject);
 }
 
     }

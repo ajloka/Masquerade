@@ -353,6 +353,7 @@ public class Character : MonoBehaviour
     public void healPlayer()
     {
         health = maxHealth;
+        healthSlider.value = health;
     }
     
 

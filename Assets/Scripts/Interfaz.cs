@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class Interfaz : MonoBehaviour {
 
@@ -8,12 +9,17 @@ public class Interfaz : MonoBehaviour {
 	private Character playerScript;
 	private bool noPausar = false;
 
-	void Awake(){
+ 
+
+    void Awake(){
 		playerScript = GameObject.FindGameObjectWithTag ("Player").GetComponent<Character> ();
-	}
+        
+    }
 
 
 	void Update(){
+
+       
 		if (Input.GetKeyDown (KeyCode.Escape) && !noPausar) {
 			activarDesactivarMenuPause ();
 		}
@@ -36,13 +42,17 @@ public class Interfaz : MonoBehaviour {
 		//activar
 		if (Time.timeScale != 0) {
 			Time.timeScale = 0;
-			menuPausa.SetActive (true);
+			
+            
+            
+
 		}
 		//desactivar
 		else {
 			Time.timeScale = 1;
 			menuPausa.SetActive (false);
-		}
+            
+        }
 	}
 
 

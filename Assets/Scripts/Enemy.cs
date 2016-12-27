@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class Enemy : MonoBehaviour {
 
@@ -31,7 +32,10 @@ public class Enemy : MonoBehaviour {
 	private int frozenTime = 4;
 	private Color iceColor = Color.cyan;
 
-	private bool dead = false;
+    AudioSource enemyAudio;
+    public float m_PitchRange = 0.2f;
+    private float m_OriginalPitch;
+    private bool dead = false;
 
 	void Awake () {
 		patrol = GetComponentInParent<Patrol> ();
@@ -41,7 +45,10 @@ public class Enemy : MonoBehaviour {
 		originalColor = spriteRenderer.color;
 		myCollider = GetComponent<BoxCollider2D> ();
 
-		healthSlider = GetComponentInChildren<Slider> ();
+        enemyAudio = GetComponent<AudioSource>();
+        m_OriginalPitch = enemyAudio.pitch;
+
+        healthSlider = GetComponentInChildren<Slider> ();
 		healthSlider.maxValue = health;
 		healthSlider.value = healthSlider.maxValue;
         healthSlider.gameObject.SetActive(false);
@@ -134,8 +141,10 @@ public class Enemy : MonoBehaviour {
 
 	private void die(){
 		player.increaseMagic (magicDropped);
+        enemyAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+        enemyAudio.Play();
 
-		GetComponent<Animator> ().Stop ();
+        GetComponent<Animator> ().Stop ();
 		GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 		myCollider.enabled = false;
 		spriteRenderer.color = Color.black;
