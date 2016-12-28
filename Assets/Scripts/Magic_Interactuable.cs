@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.Audio;
 
 public class Magic_Interactuable : MonoBehaviour {
 
@@ -28,7 +29,12 @@ public class Magic_Interactuable : MonoBehaviour {
 	private Vector3 growingDirection;
 	private int growingSpeed = 3;
 
-	private Transform origin;
+    AudioSource efectSound;
+    public AudioClip plantClip;
+    public AudioClip iceClip;
+    public AudioClip fireClip;
+
+    private Transform origin;
 	private Transform destination;
 
     // Use this for initialization
@@ -41,6 +47,7 @@ public class Magic_Interactuable : MonoBehaviour {
 		destination = transform.Find ("Destination");
 
 		spriteRenderer = GetComponent<SpriteRenderer> ();
+        efectSound = GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -92,11 +99,11 @@ public class Magic_Interactuable : MonoBehaviour {
 			GameObject myStair = Instantiate(Stair);
 			myStair.transform.position = origin.position;
 			myStair.transform.localScale = new Vector3 (myStair.transform.lossyScale.x, 0, myStair.transform.lossyScale.z);
-			/*
-			float myStairLength = (destination.position.y - origin.position.y)/3;
-			myStair.transform.localScale = new Vector3 (myStair.transform.lossyScale.x, myStairLength, myStair.transform.lossyScale.z);
-			*/
-			invokedItem = myStair.transform;
+
+            efectSound.clip = plantClip;
+            efectSound.Play();
+
+            invokedItem = myStair.transform;
 			growingDirection = new Vector3 (0, 1, 0);
 
 			playerScript.spendMagic ();
@@ -113,9 +120,10 @@ public class Magic_Interactuable : MonoBehaviour {
 
 			burning = true;
 
-            //Destroy(gameObject, 2);
+            efectSound.clip = fireClip;
+            efectSound.Play();
 
-			playerScript.spendMagic ();
+            playerScript.spendMagic ();
             activated = true;
 			finished = true;
 
@@ -127,11 +135,11 @@ public class Magic_Interactuable : MonoBehaviour {
 			GameObject myBridge = Instantiate(Bridge);
 			myBridge.transform.position = origin.position;
 			myBridge.transform.localScale = new Vector3 (0, myBridge.transform.lossyScale.y, myBridge.transform.lossyScale.z);
-			/*
-			float myBridgeLength = (destination.position.x - origin.position.x)/3;
-			myBridge.transform.localScale = new Vector3 (myBridgeLength, myBridge.transform.lossyScale.y, myBridge.transform.lossyScale.z);
-			*/
-			invokedItem = myBridge.transform;
+
+            efectSound.clip = iceClip;
+            efectSound.Play();
+
+            invokedItem = myBridge.transform;
 			growingDirection = new Vector3 (1, 0, 0);
 
 			playerScript.spendMagic ();
