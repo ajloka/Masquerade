@@ -18,8 +18,10 @@ public class Character : MonoBehaviour
 	private Animator myAnimator;
 	public RuntimeAnimatorController BoxAnimatorController;
 	public RuntimeAnimatorController JapoAnimatorController;
-	//public Animator EspartanoAnimatorController;
-	//public Animator VikingoAnimatorController;
+	public RuntimeAnimatorController EscudoAnimatorController;
+	public RuntimeAnimatorController EspartanoAnimatorController;
+
+	public GameObject Jabalina;
 
 	private int speed = 0;
 	private int maxSpeed = 10;
@@ -136,6 +138,7 @@ public class Character : MonoBehaviour
             	speed = 0;
 			}
 		    else {
+				myAnimator.SetBool ("Defend", false);
 		        speed += 1;
 		        if (speed > maxSpeed)
 		            speed = maxSpeed;
@@ -181,6 +184,23 @@ public class Character : MonoBehaviour
 
 	void Attack(){
 
+		//defender
+		if (myMask == Mask.MaskType.Vikingo) {
+			myAnimator.SetTrigger("Attack");
+			myAnimator.SetBool ("Defend", true);
+			return;
+		}
+
+		//lanzarJabalina
+		if (myMask == Mask.MaskType.Espartano) {
+			myAnimator.SetTrigger("Attack");
+			Transform myJabalina = Instantiate (Jabalina).transform;
+			if (transform.localScale.x < 0)
+				myJabalina.localScale = new Vector3 (myJabalina.localScale.x * -1, myJabalina.localScale.y, myJabalina.localScale.z);
+			myJabalina.position = transform.position;
+			return;
+		}
+
 		Collider2D[] enemies = Physics2D.OverlapBoxAll(weapon.position, weaponSize, 0, whatIsEnemy);
 
         myAnimator.SetTrigger("Attack");
@@ -193,6 +213,12 @@ public class Character : MonoBehaviour
 	}
 
 	public void receiveAttack(int damage){
+		
+		//defendiendo
+		if (myMask == Mask.MaskType.Vikingo && myAnimator.GetBool("Defend")) {
+			return;
+		}
+
 		health -= damage;
 		healthSlider.value = health;
 		if (health <= 0) {
@@ -329,12 +355,20 @@ public class Character : MonoBehaviour
 			magicTypeText.enabled = false;
 			break;
 
-		case Mask.MaskType.Espartano:
-
-			break;
-
 		case Mask.MaskType.Vikingo:
-
+			attack = 0;
+			maxHealth = 500;
+			myAnimator.runtimeAnimatorController = EscudoAnimatorController;
+			myAnimator.speed = 2;
+			magicTypeText.enabled = false;
+			break;
+		
+		case Mask.MaskType.Espartano:
+			attack = 14;
+			maxHealth = 100;
+			myAnimator.runtimeAnimatorController = EspartanoAnimatorController;
+			myAnimator.speed = 2;
+			magicTypeText.enabled = false;
 			break;
 		}
 			

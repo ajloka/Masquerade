@@ -42,10 +42,8 @@ public class Interfaz : MonoBehaviour {
 		//activar
 		if (Time.timeScale != 0) {
 			Time.timeScale = 0;
-			
+			menuPausa.SetActive (true);
             
-            
-
 		}
 		//desactivar
 		else {
