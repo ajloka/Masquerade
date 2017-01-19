@@ -105,6 +105,7 @@ public class Enemy : MonoBehaviour {
 
 	public void receiveFire(int damage){
 		health -= damage;
+		healthSlider.gameObject.SetActive(true);
 		healthSlider.value = health;
 		lerpColorValue = 0;
 		withFire = true;
@@ -150,5 +151,9 @@ public class Enemy : MonoBehaviour {
 		spriteRenderer.color = Color.black;
 		dead = true;
 		//this.gameObject.SetActive (false);
+	}
+
+	public bool IsDead(){
+		return dead;
 	}
 }

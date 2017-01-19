@@ -1,24 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Meta : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	public GameObject cargandoText;
+	public int nextSceneIndex = 2;
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            //Pasar al siguiente nivel
+			cargandoText.SetActive (true);
+			Invoke ("ChangeScene", 0.1f);
         }
 
     }
+
+	private void ChangeScene(){
+		SceneManager.LoadScene (nextSceneIndex);
+	}
 }

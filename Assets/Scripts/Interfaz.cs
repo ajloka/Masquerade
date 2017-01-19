@@ -13,13 +13,10 @@ public class Interfaz : MonoBehaviour {
 
     void Awake(){
 		playerScript = GameObject.FindGameObjectWithTag ("Player").GetComponent<Character> ();
-        
     }
 
 
 	void Update(){
-
-       
 		if (Input.GetKeyDown (KeyCode.Escape) && !noPausar) {
 			activarDesactivarMenuPause ();
 		}
@@ -63,8 +60,8 @@ public class Interfaz : MonoBehaviour {
 	public void EspartanoMask(){
 		playerScript.setMask (Mask.MaskType.Espartano);
 	}
-	public void VikingoMask(){
-		playerScript.setMask (Mask.MaskType.Vikingo);
+	public void CaballeroMask(){
+		playerScript.setMask (Mask.MaskType.Caballero);
 	}
 
 	public void NoPausar(){

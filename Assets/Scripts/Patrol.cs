@@ -149,15 +149,19 @@ public class Patrol : MonoBehaviour
 	}
 
     //Funcion llamada desde los triggers
-    public void setPlayerOnReach(bool aux)
+	public void SetPlayerOnReach(bool playerOnReach)
     {
-        playerOnReach = aux;
+		this.playerOnReach = playerOnReach;
         if (playerOnReach)
         {
             enemyAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
             enemyAudio.Play();
         }
     }
+
+	public bool GetPlayerOnReach(){
+		return playerOnReach;
+	}
 
 
 	public void setWaiting(bool waiting){

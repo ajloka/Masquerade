@@ -13,6 +13,7 @@ public class Character : MonoBehaviour
 
 	private bool wait = false;
 
+	public int numMasksYouHave = 1;
 	private Mask.MaskType myMask = Mask.MaskType.Cartón;
 
 	private Animator myAnimator;
@@ -69,31 +70,59 @@ public class Character : MonoBehaviour
         myAnimator = GetComponent<Animator>();
 		particulasMagia = GetComponentInChildren<ParticleSystem> ();
 
-        m_MagicType = "Plant";
+        m_MagicType = "Fire";
+		magicTypeText.color = new Color (0.8f, 0, 0); //rojo oscuro
+		magicTypeText.text = "Magia: Fuego";
     }
 
     private void Update()
     {
     
-        //Lee si se cmabia el tipo de magia
-        if (Input.GetKey("left"))
+        //Lee si se cambia el tipo de magia
+		if (Input.GetKeyDown("left"))
         {
             m_MagicType = "Ice";
 			magicTypeText.color = Color.cyan;
+			magicTypeText.text = "Magia: Hielo";
         }
-        if (Input.GetKey("right"))
+		if (Input.GetKeyDown("right"))
         {
             m_MagicType = "Fire";
 			magicTypeText.color = new Color (0.8f, 0, 0); //rojo oscuro
+			magicTypeText.text = "Magia: Fuego";
         }
-        if (Input.GetKey("up"))
+		if (Input.GetKeyDown("up"))
         {
             m_MagicType = "Plant";
 			magicTypeText.color = Color.green;
+			magicTypeText.text = "Magia: Planta";
         }
 
-		if (magicTypeText)
-			magicTypeText.text = "Magic: " + m_MagicType;
+
+		//Lee si se cambia la máscara
+		if (Input.GetKeyDown ("down")) {
+			switch (myMask) {
+			case Mask.MaskType.Cartón:
+				if (numMasksYouHave >= 2)
+					setMask (Mask.MaskType.Japo);
+				break;
+			case Mask.MaskType.Japo:
+				if (numMasksYouHave >= 3)
+					setMask (Mask.MaskType.Caballero);
+				else
+					setMask (Mask.MaskType.Cartón);
+				break;
+			case Mask.MaskType.Caballero:
+				if (numMasksYouHave >= 4)
+					setMask (Mask.MaskType.Espartano);
+				else
+					setMask (Mask.MaskType.Cartón);
+				break;
+			case Mask.MaskType.Espartano:
+				setMask (Mask.MaskType.Cartón);
+				break;
+			}
+		}
     }
 
 
@@ -185,7 +214,7 @@ public class Character : MonoBehaviour
 	void Attack(){
 
 		//defender
-		if (myMask == Mask.MaskType.Vikingo) {
+		if (myMask == Mask.MaskType.Caballero) {
 			myAnimator.SetTrigger("Attack");
 			myAnimator.SetBool ("Defend", true);
 			return;
@@ -198,6 +227,7 @@ public class Character : MonoBehaviour
 			if (transform.localScale.x < 0)
 				myJabalina.localScale = new Vector3 (myJabalina.localScale.x * -1, myJabalina.localScale.y, myJabalina.localScale.z);
 			myJabalina.position = transform.position;
+			startWaiting (0.6f);
 			return;
 		}
 
@@ -215,7 +245,7 @@ public class Character : MonoBehaviour
 	public void receiveAttack(int damage){
 		
 		//defendiendo
-		if (myMask == Mask.MaskType.Vikingo && myAnimator.GetBool("Defend")) {
+		if (IsUsingShield()) {
 			return;
 		}
 
@@ -330,6 +360,10 @@ public class Character : MonoBehaviour
 		return myMask;
 	}
 
+	public void newMaskObtained (){
+		numMasksYouHave++;
+	}
+
 	public void setMask(Mask.MaskType maskType)
     {
         //Cambiar sprites y animaciones
@@ -355,7 +389,7 @@ public class Character : MonoBehaviour
 			magicTypeText.enabled = false;
 			break;
 
-		case Mask.MaskType.Vikingo:
+		case Mask.MaskType.Caballero:
 			attack = 0;
 			maxHealth = 500;
 			myAnimator.runtimeAnimatorController = EscudoAnimatorController;
@@ -364,7 +398,7 @@ public class Character : MonoBehaviour
 			break;
 		
 		case Mask.MaskType.Espartano:
-			attack = 14;
+			attack = 10;
 			maxHealth = 100;
 			myAnimator.runtimeAnimatorController = EspartanoAnimatorController;
 			myAnimator.speed = 2;
@@ -390,7 +424,8 @@ public class Character : MonoBehaviour
         healthSlider.value = health;
     }
     
-
-
+	public bool IsUsingShield(){
+		return (myMask == Mask.MaskType.Caballero && myAnimator.GetBool("Defend"));
+	}
 }
 

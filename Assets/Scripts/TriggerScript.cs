@@ -26,7 +26,7 @@ public class TriggerScript : MonoBehaviour {
 	        if (other.tag == "Player")
 	        {
 	            //Pone a ture perseguir al jugador
-	            gameObject.GetComponentInParent<Patrol>().setPlayerOnReach(true);
+	            gameObject.GetComponentInParent<Patrol>().SetPlayerOnReach(true);
 	            
 	        }
 	    }
@@ -41,7 +41,7 @@ public class TriggerScript : MonoBehaviour {
             if (other.tag == "Player")
             {
                 //Deja de perseguir al jugador
-                gameObject.GetComponentInParent<Patrol>().setPlayerOnReach(false);
+                gameObject.GetComponentInParent<Patrol>().SetPlayerOnReach(false);
                 
             }
         }

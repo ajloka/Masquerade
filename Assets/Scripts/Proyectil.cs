@@ -5,7 +5,7 @@ public class Proyectil : MonoBehaviour {
 
 	public bool delPlayer = true;
 	public int damage = 14;
-	private int speed = 10;
+	private int speed = 15;
 	private int maxDistance = 15;
 	private float distanciaRecorrida = 0;
 
@@ -28,7 +28,27 @@ public class Proyectil : MonoBehaviour {
 		else {
 			Character playerScript = other.GetComponent<Character> ();
 			if (playerScript != null) {
-				playerScript.receiveAttack (damage);
+				
+				if (playerScript.IsUsingShield ()) {
+					checkIfEnemyAlreadyInside ();
+					delPlayer = true;
+					transform.localScale = new Vector3 (transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+					distanciaRecorrida = 0;
+				}
+				else {
+					playerScript.receiveAttack (damage);
+					Destroy (this.gameObject);
+				}
+			}
+		}
+	}
+
+	void checkIfEnemyAlreadyInside(){
+		Collider2D[] items = Physics2D.OverlapBoxAll(transform.position, GetComponent<BoxCollider2D>().size, 0);
+		foreach (Collider2D item in items) {
+			Enemy enemyScript = item.GetComponent<Enemy> ();
+			if (enemyScript != null) {
+				enemyScript.receiveAttack (damage);
 				Destroy (this.gameObject);
 			}
 		}
