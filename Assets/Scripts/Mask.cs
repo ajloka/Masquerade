@@ -37,7 +37,8 @@ public class Mask : MonoBehaviour
         if (other.tag == "Player")
 		{
 			Character player = other.GetComponent<Character> ();
-			player.newMaskObtained ();
+            player.healPlayer();
+            player.newMaskObtained ();
 			player.setMask(maskType);
 
 			myMaskButton.interactable = true;
