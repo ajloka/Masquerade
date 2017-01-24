@@ -4,12 +4,9 @@ using UnityEngine.UI;
 
 public class Patrol : MonoBehaviour
 {
-
-	public bool volador = false;
+	public bool flying = false;
 
     private Transform waypoint;
-    //private CircleCollider2D TriggerOut;
-    //private CircleCollider2D TriggerIn;
     private GameObject enemy;
 	private Rigidbody2D enemyRigidbody;
 	private RectTransform enemyCanvas;
@@ -19,7 +16,6 @@ public class Patrol : MonoBehaviour
     public float m_PitchRange = 0.2f;
     private float m_OriginalPitch;
 
-
     bool playerOnReach = false;
     
     public float speed;
@@ -27,7 +23,6 @@ public class Patrol : MonoBehaviour
 
 	bool waiting = false;
 
-    // Use this for initialization
     void Awake()
     {
         //Encuentra un waypoint para patrullar
@@ -46,18 +41,14 @@ public class Patrol : MonoBehaviour
         m_OriginalPitch = enemyAudio.pitch;
     }
 
-    // Update is called once per frame
-
     void FixedUpdate()
     {
-		
-        //Mira si ha de esperar, o si ha de de perseguir al player o patrullar
 		if (waiting) {
 			return;
 		}
         else if (playerOnReach)
         {
-            Persigue();
+            Pursue();
         }
 
         else
@@ -70,74 +61,47 @@ public class Patrol : MonoBehaviour
 
     void Patrulla()
     {
-        //float step = speed * Time.deltaTime;
-        
-        //Si ya ha llegado a su destino, lo cambia
+        //if reach destinantion, change destination
         if (Vector3.Distance(enemy.transform.position, waypoint.position) < 2)
         {
             //Hace un flip al llegar
             if (index == 2) {
 				index = 1;
-				//Flip();
 			}
             else {
 				index = 2;
-				//Flip();
 			}
             waypoint = transform.Find("Point" + index).GetComponent<Transform>();
-
-            //myRigidbody.velocity = new Vector2();
-
         }
 
-        //Mueve el enemigo y a los triggers con el
-        //enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, waypoint.position, step);
+        //Move
 		int rightOrLeft = enemy.transform.position.x > waypoint.position.x ? -1 : 1;
 		enemyRigidbody.velocity = new Vector2 (rightOrLeft * speed, 0);
 
-		if (volador) {
+		if (flying) {
 			int upOrDown = enemy.transform.position.y > waypoint.position.y ? -1 : 1;
 			enemyRigidbody.velocity = new Vector2 (enemyRigidbody.velocity.x, upOrDown*speed);
 		}
-
-
          
 		CheckIfFlip (waypoint.transform);
 
     }
 
-    void Persigue()
+    void Pursue()
     {
-        //float step = speed * Time.deltaTime;
-        
-        //Encuentra la posicion en X del jugador, y la suya en Y
-        //var playerPos = new Vector2(player.transform.position.x, enemy.transform.position.y);
         Vector3 playerPos = player.transform.position;
 
-        //Aplica el movimiento al enemigo y los triggers
-        //enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, playerPos, step);
+        //Move
 		int rightOrLeft = enemy.transform.position.x > playerPos.x ? -1 : 1;
 		enemyRigidbody.velocity = new Vector2 (rightOrLeft * speed, 0);
 
-		if (volador) {
+		if (flying) {
 			int upOrDown = enemy.transform.position.y > playerPos.y ? -1 : 1;
 			enemyRigidbody.velocity = new Vector2 (enemyRigidbody.velocity.x, upOrDown*speed);
 		}
 
-
-        //myRigidbody.velocity = new Vector2();
-
-
         CheckIfFlip(player.transform);
     }
-	/*
-    private void Flip()
-    {
-
-        enemy.transform.localScale = new Vector3(enemy.transform.localScale.x * -1, enemy.transform.localScale.y, enemy.transform.localScale.z);
-        
-    }
-    */
 
 	private void CheckIfFlip(Transform targetToMove)
 	{
@@ -148,7 +112,7 @@ public class Patrol : MonoBehaviour
 		}
 	}
 
-    //Funcion llamada desde los triggers
+    //Function called from trigers
 	public void SetPlayerOnReach(bool playerOnReach)
     {
 		this.playerOnReach = playerOnReach;

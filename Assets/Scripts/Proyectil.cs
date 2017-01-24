@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Proyectil : MonoBehaviour {
 
-	public bool delPlayer = true;
+	public bool belongsToPlayer = true;
 	public int damage = 14;
 	private int speed = 15;
 	private int maxDistance = 15;
@@ -18,7 +18,7 @@ public class Proyectil : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (delPlayer) {
+		if (belongsToPlayer) {
 			Enemy enemyScript = other.GetComponent<Enemy> ();
 			if (enemyScript != null) {
 				enemyScript.receiveAttack (damage);
@@ -31,7 +31,7 @@ public class Proyectil : MonoBehaviour {
 				
 				if (playerScript.IsUsingShield ()) {
 					checkIfEnemyAlreadyInside ();
-					delPlayer = true;
+					belongsToPlayer = true;
 					transform.localScale = new Vector3 (transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
 					distanciaRecorrida = 0;
 				}

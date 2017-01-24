@@ -9,7 +9,6 @@ public class EnemyProyectil : MonoBehaviour {
 	private Patrol myPatrolScript;
 	private Enemy myEnemyScript;
 
-	// Use this for initialization
 	void Awake () {
 		myPatrolScript = GetComponentInParent<Patrol> ();
 		myEnemyScript = GetComponent<Enemy> ();
@@ -18,8 +17,7 @@ public class EnemyProyectil : MonoBehaviour {
 	void Start(){
 		InvokeRepeating ("LazarProyectil", delay, delay);
 	}
-	
-	// Update is called once per frame
+
 	private void LazarProyectil () {
 		if (!myPatrolScript.GetPlayerOnReach () || myEnemyScript.IsDead())
 			return;

@@ -62,13 +62,10 @@ public class Enemy : MonoBehaviour {
 			return;
 		}
 
-
-
 		if (frozen) {
 			patrol.setWaiting (true);
 			return;
 		}
-
 
 		bool playerInRange = attackTrigger.isPlayerInRange ();
 		bool waiting = Time.time < timeLastAttack + attackDelay;
@@ -141,7 +138,7 @@ public class Enemy : MonoBehaviour {
 	}
 
 	private void die(){
-		player.increaseMagic (magicDropped);
+		player.increaseMagicAndHealth (magicDropped);
         enemyAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
         enemyAudio.Play();
 
@@ -150,7 +147,6 @@ public class Enemy : MonoBehaviour {
 		myCollider.enabled = false;
 		spriteRenderer.color = Color.black;
 		dead = true;
-		//this.gameObject.SetActive (false);
 	}
 
 	public bool IsDead(){

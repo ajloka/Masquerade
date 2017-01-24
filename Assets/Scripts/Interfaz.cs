@@ -9,8 +9,6 @@ public class Interfaz : MonoBehaviour {
 	private Character playerScript;
 	private bool noPausar = false;
 
- 
-
     void Awake(){
 		playerScript = GameObject.FindGameObjectWithTag ("Player").GetComponent<Character> ();
     }
@@ -24,8 +22,7 @@ public class Interfaz : MonoBehaviour {
 			noPausar = false;
 		}
 	}
-
-
+		
 	public void ResumeButton(){
 		activarDesactivarMenuPause ();
 	}

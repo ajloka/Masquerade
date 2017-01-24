@@ -6,9 +6,8 @@ using UnityEngine.Audio;
 public class Magic_Interactuable : MonoBehaviour {
 
     public enum MagicType { Plant, Ice, Fire};
-    public MagicType MagicElement; // magicType == MagicType.Plant;
+    public MagicType MagicElement; // initial magicType == MagicType.Plant;
 
-    //public Transform reciver;
     public GameObject Stair;
     public GameObject Bridge;
 	public GameObject Fire;
@@ -20,7 +19,7 @@ public class Magic_Interactuable : MonoBehaviour {
 	private Character playerScript;
 
     private string m_Type;
-	private string m_MagicButton = "Fire2"; // boton derecho del raton, o tecla "R" del teclado
+	private string m_MagicButton = "Fire2"; // right mouse press, or "R" in keyboard
 	private bool touching = false;
     private bool activated = false;
 	private bool finished;
@@ -37,7 +36,6 @@ public class Magic_Interactuable : MonoBehaviour {
     private Transform origin;
 	private Transform destination;
 
-    // Use this for initialization
     void Awake () {
 
         player = GameObject.FindGameObjectWithTag("Player");
@@ -49,15 +47,13 @@ public class Magic_Interactuable : MonoBehaviour {
 		spriteRenderer = GetComponent<SpriteRenderer> ();
         efectSound = GetComponent<AudioSource>();
     }
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (touching && !activated && playerScript.getMask() == Mask.MaskType.Cartón) {
-			//Lee si el jugador pulsa la tecla de magia
+			
 			if (Input.GetButtonDown (m_MagicButton) && playerScript.magicAvailable()) {
 				m_Type = playerScript.magic ();
 				startTheMagic (m_Type);
-				//playerScript.spendMagic ();
 			}
 		}
 		else if (activated && !finished) {
@@ -73,7 +69,6 @@ public class Magic_Interactuable : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        
         if (other.gameObject == player)
         {
             touching = true;
@@ -82,7 +77,6 @@ public class Magic_Interactuable : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D other)
     {
-
         if (other.gameObject == player)
         {
             touching = false;
@@ -93,8 +87,7 @@ public class Magic_Interactuable : MonoBehaviour {
     {
         if(magicPlayerType == "Plant" && MagicElement == MagicType.Plant)
         {
-            //crear escalera desde el punto desde este objeto hasta el reciver
-			//Instantiate(Stair, transform.position, new Quaternion());
+            //create stairs from item position to receiver position
 
 			GameObject myStair = Instantiate(Stair);
 			myStair.transform.position = origin.position;
@@ -111,9 +104,8 @@ public class Magic_Interactuable : MonoBehaviour {
         }
         else if (magicPlayerType == "Fire" && MagicElement == MagicType.Fire)
         {
-            //Destruir objeto
+            //Destroy item
 
-			//GetComponent<SpriteRenderer>().color = Color.red;
 			Transform myFire = Instantiate (Fire).transform;
 			myFire.SetParent (this.transform);
 			myFire.localPosition = new Vector3(0,1,0);
@@ -130,8 +122,8 @@ public class Magic_Interactuable : MonoBehaviour {
         }
         else if (magicPlayerType == "Ice" && MagicElement == MagicType.Ice)
         {
-            //crear puente desde el punto desde este objeto hasta el reciver
-			//Instantiate(Bridge, transform.position, new Quaternion());
+			//create bridge from item position to receiver position
+
 			GameObject myBridge = Instantiate(Bridge);
 			myBridge.transform.position = origin.position;
 			myBridge.transform.localScale = new Vector3 (0, myBridge.transform.lossyScale.y, myBridge.transform.lossyScale.z);

@@ -22,7 +22,7 @@ public class Character : MonoBehaviour
 	public RuntimeAnimatorController EscudoAnimatorController;
 	public RuntimeAnimatorController EspartanoAnimatorController;
 
-	public GameObject Jabalina;
+	public GameObject Javelin;
 
 	private int speed = 0;
 	private int maxSpeed = 10;
@@ -64,21 +64,20 @@ public class Character : MonoBehaviour
 		weapon = transform.Find("Weapon");
 		weaponSize = weapon.GetComponent<BoxCollider2D> ().size;
         myRigidbody = GetComponent<Rigidbody2D>();
-		groundedRadius = (GetComponent<BoxCollider2D> ().size.x * transform.lossyScale.x) / 2;//transform.localScale.x;
+		groundedRadius = (GetComponent<BoxCollider2D> ().size.x * transform.lossyScale.x) / 2;
 		myGravity = myRigidbody.gravityScale;
 
         myAnimator = GetComponent<Animator>();
 		particulasMagia = GetComponentInChildren<ParticleSystem> ();
 
         m_MagicType = "Fire";
-		magicTypeText.color = new Color (0.8f, 0, 0); //rojo oscuro
+		magicTypeText.color = new Color (0.8f, 0, 0); //dark red
 		magicTypeText.text = "Magia: Fuego";
     }
 
     private void Update()
     {
-    
-        //Lee si se cambia el tipo de magia
+		//Change MagicType
 		if (Input.GetKeyDown("left"))
         {
             m_MagicType = "Ice";
@@ -88,7 +87,7 @@ public class Character : MonoBehaviour
 		if (Input.GetKeyDown("right"))
         {
             m_MagicType = "Fire";
-			magicTypeText.color = new Color (0.8f, 0, 0); //rojo oscuro
+			magicTypeText.color = new Color (0.8f, 0, 0); //dark red
 			magicTypeText.text = "Magia: Fuego";
         }
 		if (Input.GetKeyDown("up"))
@@ -99,7 +98,7 @@ public class Character : MonoBehaviour
         }
 
 
-		//Lee si se cambia la máscara
+		//Change Mask
 		if (Input.GetKeyDown ("down")) {
 			switch (myMask) {
 			case Mask.MaskType.Cartón:
@@ -191,7 +190,6 @@ public class Character : MonoBehaviour
 
 
 	public void setOnStairs(bool onStairs){
-		//this.onStairs = onStairs;
 		if (onStairs)
 			this.numStairs++;
 		else
@@ -213,20 +211,20 @@ public class Character : MonoBehaviour
 
 	void Attack(){
 
-		//defender
+		//defend
 		if (myMask == Mask.MaskType.Caballero) {
 			myAnimator.SetTrigger("Attack");
 			myAnimator.SetBool ("Defend", true);
 			return;
 		}
 
-		//lanzarJabalina
+		//throw javelin
 		if (myMask == Mask.MaskType.Espartano) {
 			myAnimator.SetTrigger("Attack");
-			Transform myJabalina = Instantiate (Jabalina).transform;
+			Transform myJavelin = Instantiate (Javelin).transform;
 			if (transform.localScale.x < 0)
-				myJabalina.localScale = new Vector3 (myJabalina.localScale.x * -1, myJabalina.localScale.y, myJabalina.localScale.z);
-			myJabalina.position = transform.position;
+				myJavelin.localScale = new Vector3 (myJavelin.localScale.x * -1, myJavelin.localScale.y, myJavelin.localScale.z);
+			myJavelin.position = transform.position;
 			startWaiting (0.6f);
 			return;
 		}
@@ -244,7 +242,7 @@ public class Character : MonoBehaviour
 
 	public void receiveAttack(int damage){
 		
-		//defendiendo
+		//defending
 		if (IsUsingShield()) {
 			return;
 		}
@@ -286,9 +284,7 @@ public class Character : MonoBehaviour
 		magicSlider.value = magicAmount;
         myAnimator.SetTrigger("Magic");
 		startWaiting (1.2f);
-		//GameObject newParticulasMagia = Instantiate(particulasMagia.gameObject);
-		//newParticulasMagia.GetComponent<ParticleSystem> ().Play ();
-		//Destroy (newParticulasMagia, 4);
+
 		switch (m_MagicType) {
 		case ("Fire"):
 			particulasMagia.startColor = new Color (0.8f, 0, 0); //rojo oscuro
@@ -303,15 +299,18 @@ public class Character : MonoBehaviour
 		particulasMagia.Play ();
     }
 
-	public void increaseMagic(int amount){
-		magicAmount += amount;
+	public void increaseMagicAndHealth(int amountOfMagic){
+		magicAmount += amountOfMagic;
 		if (magicAmount > maxMagicAmount)
 			magicAmount = maxMagicAmount;
 		magicSlider.value = magicAmount;
 
-		//el incremento de vida es fijo
-		int lifeAmount = 5;
-		health += lifeAmount;
+		//amountOfHealth is always the same
+		int amountOfHealth = 5;
+		if (maxHealth != 100) {
+			amountOfHealth = (int)(amountOfHealth / 100f * maxHealth);
+		}
+		health += amountOfHealth;
 		if (health > maxHealth)
 			health = maxHealth;
 		healthSlider.value = health;
@@ -366,9 +365,9 @@ public class Character : MonoBehaviour
 
 	public void setMask(Mask.MaskType maskType)
     {
-        //Cambiar sprites y animaciones
-
 		myMask = maskType;
+
+		myAnimator.SetBool ("Defend", false);
 
 		float relativeHealth = (float) health / (float) maxHealth ;
 
