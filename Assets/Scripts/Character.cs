@@ -367,8 +367,6 @@ public class Character : MonoBehaviour
     {
 		myMask = maskType;
 
-		myAnimator.SetBool ("Defend", false);
-
 		float relativeHealth = (float) health / (float) maxHealth ;
 
 		switch (maskType) {
@@ -408,6 +406,8 @@ public class Character : MonoBehaviour
 		health = (int)(relativeHealth * maxHealth);
 		healthSlider.maxValue = maxHealth;
 		healthSlider.value = health;
+
+		myAnimator.SetBool ("Defend", false);
     }
 
 	void death(){
