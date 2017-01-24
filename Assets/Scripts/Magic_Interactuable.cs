@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 public class Magic_Interactuable : MonoBehaviour {
 
     public enum MagicType { Plant, Ice, Fire};
-    public MagicType MagicElement; // initial magicType == MagicType.Plant;
+    public MagicType MagicElement;
 
     public GameObject Stair;
     public GameObject Bridge;
